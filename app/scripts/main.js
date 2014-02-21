@@ -1,5 +1,5 @@
 //connect
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect(location.host || 'http://localhost:8080');
 
 //use instead of setInterval/setTimeout
 //http://creativejs.com/resources/requestanimationframe/
