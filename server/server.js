@@ -20,5 +20,7 @@ require('./ircServer.js');
 app.use(express.compress());
 // app.use(express.static(path.normalize(__dirname + '/../app')));
 app.use(express.static(path.normalize(__dirname + '/../dist')));
-server.listen(8080);
-console.log('http server listening on port 8080');
+//port to 8080
+var port = Number(process.env.PORT || 8080);
+server.listen(port);
+console.log('http server listening on port ' + port);
