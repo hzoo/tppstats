@@ -272,7 +272,4 @@ module.exports = function (grunt) {
         'jshint',
         'build'
     ]);
-
-    grunt.registerTask('heroku:development', 'default');
-    grunt.registerTask('heroku:production', 'default');
 };
