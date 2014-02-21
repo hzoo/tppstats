@@ -51,8 +51,10 @@
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
-        <script src="http://localhost:8080/socket.io/socket.io.js"></script>
-
+        <script>document.write('<script src="http://'
+            + (location.host || 'localhost:8080')
+            + '/socket.io/socket.io.js"></'
+            + 'script>')</script>
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
         <!-- endbuild -->
