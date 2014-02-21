@@ -17,7 +17,7 @@ var client = new irc.Client(config.server, config.nick, {
 });
 
 var commands = [
-    "left", "right", "up", "down", "start", "select", "a", "b", "democracy", "anarchy",                                                
+    "left", "right", "up", "down", "start", "select", "a", "b", "democracy", "anarchy"                                         
 ],
 anarchy = true,
 anarchyRegex = new RegExp("^(" + commands.join("|") + ")$", "i"),
