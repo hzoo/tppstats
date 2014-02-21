@@ -1,5 +1,10 @@
 //connect
-var socket = io.connect(location.host || 'http://localhost:8080');
+
+if (location.host.split(':')[0] === 'localhost') {
+    var socket = io.connect('http://localhost:8080');
+} else {
+    var socket = io.connect(location.host);
+}
 
 //use instead of setInterval/setTimeout
 //http://creativejs.com/resources/requestanimationframe/

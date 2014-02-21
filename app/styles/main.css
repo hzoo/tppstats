@@ -20,5 +20,5 @@
 }
 
 .main { background-color: lightgray; }
-.notes { color: gray; margin-top: 30px; }
+.notes { color: gray; margin-top: 30px; font-size: 12px;}
 .twitch_img { margin: 15px 0; }
