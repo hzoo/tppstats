@@ -12,7 +12,7 @@
       margin-right: -0.25em; /* Adjusts for spacing */
     }
 /* The element to be centered, can
-   also be of any width and height */ 
+   also be of any width and height */
 .centered {
   display: inline-block;
   vertical-align: middle;
@@ -21,4 +21,11 @@
 
 .main { background-color: lightgray; }
 .notes { color: gray; margin-top: 30px; font-size: 12px;}
-.twitch_img { margin: 15px 0; }
+.twitch_img {
+    position: absolute;
+    opacity: 0.7;
+    /*margin-top: 20px;
+    margin-left: 65px;*/
+    margin-top: 280px;
+    margin-left: 165px;
+}

@@ -21,6 +21,7 @@ function resetCounts() {
     return {'a':0,'b':0,'u':0,'l':0,'r':0,'d':0,'s':0,'e':0,'n':0,'m':0};
 }
 var counts = resetCounts();
+var perSecondCounts = resetCounts();
 var politicsCounts = {'n':0,'m':0};
 
 //get canvas
@@ -32,13 +33,14 @@ var queue = [];
 var politicsQueue = [];
 var perSecondQueue = [];
 var queueLength = 100;
-var politicsQueueLength = 1000;
+var politicsQueueLength = 2000;
 
 //when data is sent
 socket.on('k', function (data) {
     //add to array
     var command = data.k;
     counts[command]++;
+    perSecondCounts[command]++;
     if (queue.length >= queueLength) {
         counts[queue.shift()]--;
     }
@@ -60,6 +62,7 @@ var commandsPerSecond = 0;
 setInterval(function() {
     commandsPerSecond = perSecondQueue.length;
     perSecondQueue = [];
+    perSecondCounts = resetCounts();
 }, 1000);
 
 function animate() {
@@ -78,17 +81,16 @@ function animate() {
     // Restore the transform
     ctx.restore();
 
-    var multiplier = 1,
-    a = counts.a*multiplier,
-    b = counts.b*multiplier,
-    up = counts.u*multiplier,
-    down = counts.d*multiplier,
-    left = counts.l*multiplier,
-    right = counts.r*multiplier,
-    start = counts.s*multiplier,
-    select = counts.e*multiplier,
-    democracy = counts.m*multiplier,
-    anarchy = counts.n*multiplier,
+    var a = counts.a,
+    b = counts.b,
+    up = counts.u,
+    down = counts.d,
+    left = counts.l,
+    right = counts.r,
+    start = counts.s,
+    select = counts.e,
+    democracy = counts.m,
+    anarchy = counts.n,
     //normalize to 100
     demVote = politicsCounts.m*(100/politicsQueueLength),
     anaVote = politicsCounts.n*(100/politicsQueueLength),
@@ -112,11 +114,13 @@ function animate() {
     ctx.lineWidth = 0.5;
     ctx.fillStyle = '#EEE';
 
-    ctx.moveTo(num1, num1-up);
-    ctx.lineTo(num1+right, num1);
-    ctx.lineTo(num1,num1+down);
-    ctx.lineTo(num1-left,100);
-    ctx.lineTo(num1,num1-up);
+    //make these larger
+    var multipler = 3;
+    ctx.moveTo(num1, num1-up*multipler);
+    ctx.lineTo(num1+right*multipler, num1);
+    ctx.lineTo(num1,num1+down*multipler);
+    ctx.lineTo(num1-left*multipler,num1);
+    ctx.lineTo(num1,num1-up*multipler);
     ctx.stroke();
     ctx.fill();
 

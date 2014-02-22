@@ -17,12 +17,11 @@ var client = new irc.Client(config.server, config.nick, {
 });
 
 var commands = [
-    "left", "right", "up", "down", "start", "select", "a", "b", "democracy", "anarchy"                                         
+    'left', 'right', 'up', 'down', 'start', 'select', 'a', 'b', 'democracy', 'anarchy'
 ],
-anarchy = true,
-anarchyRegex = new RegExp("^(" + commands.join("|") + ")$", "i"),
-democracyRegex = new RegExp("^((" + commands.join("|") + ")\\d?)$", "i");
-var regex = anarchyRegex;
+// anarchyRegex = new RegExp('^(' + commands.join('|') + ')$', 'i'),
+democracyRegex = new RegExp('^((' + commands.join('|') + ')\\d?)$', 'i'),
+regex = democracyRegex;
 
 function shorten(message) {
     var command, sub = message.slice(0,2).toLowerCase(), firstLetter = sub[0];
@@ -72,7 +71,7 @@ client.addListener('message' + config.channel, function (from, message) {
 //     } else {
 //         //if you want to log messages that don't match
 //         if (logAll) {
-//             console.log('|' + from + ": " + message);
+//             console.log('|' + from + ': ' + message);
 //         }
 //     }
 // });
