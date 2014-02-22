@@ -21,7 +21,7 @@ function resetCounts() {
     return {'a':0,'b':0,'u':0,'l':0,'r':0,'d':0,'s':0,'e':0,'n':0,'m':0};
 }
 var counts = resetCounts();
-var perSecondCounts = resetCounts();
+// var perSecondCounts = resetCounts();
 var politicsCounts = {'n':0,'m':0};
 
 //get canvas
@@ -31,7 +31,7 @@ var ctx = canvas.getContext('2d');
 //queue to keep count of the last queueLength commands
 var queue = [];
 var politicsQueue = [];
-var perSecondQueue = [];
+// var perSecondQueue = [];
 var queueLength = 100;
 var politicsQueueLength = 2000;
 
@@ -40,7 +40,7 @@ socket.on('k', function (data) {
     //add to array
     var command = data.k;
     counts[command]++;
-    perSecondCounts[command]++;
+    // perSecondCounts[command]++;
     if (queue.length >= queueLength) {
         counts[queue.shift()]--;
     }
@@ -54,16 +54,16 @@ socket.on('k', function (data) {
         politicsQueue.push(command);
     }
 
-    perSecondQueue.push(command);
+    // perSecondQueue.push(command);
 });
 
-var commandsPerSecond = 0;
+// var commandsPerSecond = 0;
 //check commands/second
-setInterval(function() {
-    commandsPerSecond = perSecondQueue.length;
-    perSecondQueue = [];
-    perSecondCounts = resetCounts();
-}, 1000);
+// setInterval(function() {
+//     commandsPerSecond = perSecondQueue.length;
+//     perSecondQueue = [];
+//     perSecondCounts = resetCounts();
+// }, 1000);
 
 function animate() {
     //clear canvas state
@@ -243,9 +243,9 @@ function animate() {
     ctx.stroke();
 
     //commands/sec
-    ctx.fillStyle='#000';
-    ctx.font = '10px Arial';
-    ctx.fillText(commandsPerSecond+' keys/s',290,175);
+    // ctx.fillStyle='#000';
+    // ctx.font = '10px Arial';
+    // ctx.fillText(commandsPerSecond+' keys/s',290,175);
 
     window.requestAnimationFrame(animate);
 }
