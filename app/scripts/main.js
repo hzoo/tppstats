@@ -65,6 +65,12 @@ socket.on('k', function (data) {
 //     perSecondCounts = resetCounts();
 // }, 1000);
 
+function pad(number, size) {
+    number = number.toString();
+    while (number.length < size) { number = ' ' + number; }
+    return number;
+}
+
 function animate() {
     //clear canvas state
     //canvas.width hack is slow
@@ -153,13 +159,13 @@ function animate() {
     ctx.fillText('ANAR',rectX-35,rectY+5+15*5);
     ctx.fillText('DPAD',rectX-35,rectY+5+15*6);
     //%s
-    ctx.fillText((a        )+'%',rectX+117,rectY+5);
-    ctx.fillText((b        )+'%',rectX+117,rectY+5+15*1);
-    ctx.fillText((start    )+'%',rectX+117,rectY+5+15*2);
-    ctx.fillText((select   )+'%',rectX+117,rectY+5+15*3);
-    ctx.fillText((democracy)+'%',rectX+117,rectY+5+15*4);
-    ctx.fillText((anarchy  )+'%',rectX+117,rectY+5+15*5);
-    ctx.fillText((dpad)+'%',rectX+117,rectY+5+15*6);
+    ctx.fillText(pad(a        ,2),rectX+117,rectY+5);
+    ctx.fillText(pad(b        ,2),rectX+117,rectY+5+15*1);
+    ctx.fillText(pad(start    ,2),rectX+117,rectY+5+15*2);
+    ctx.fillText(pad(select   ,2),rectX+117,rectY+5+15*3);
+    ctx.fillText(pad(democracy,2),rectX+117,rectY+5+15*4);
+    ctx.fillText(pad(anarchy  ,2),rectX+117,rectY+5+15*5);
+    ctx.fillText(pad(dpad     ,2),rectX+117,rectY+5+15*6);
     //edge
     ctx.fill();
 
