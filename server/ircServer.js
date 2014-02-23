@@ -1,6 +1,6 @@
 var irc = require('irc'),
-printf = require('printf'),
-keyHandler = require('./keyHandler.js'),
+// printf = require('printf'),
+// keyHandler = require('./keyHandler.js'),
 config = require('./config.js'),
 common = require('./common.js');
 
@@ -19,6 +19,10 @@ var client = new irc.Client(config.server, config.nick, {
 var commands = [
     'left', 'right', 'up', 'down', 'start', 'select', 'a', 'b', 'democracy', 'anarchy'
 ],
+commandsBufferLength = 100,
+commandsBuffer = [],
+politicsBufferLength = 1000,
+politicsBuffer = [],
 // anarchyRegex = new RegExp('^(' + commands.join('|') + ')$', 'i'),
 democracyRegex = new RegExp('^((' + commands.join('|') + ')\\d?)$', 'i'),
 regex = democracyRegex;
@@ -32,13 +36,31 @@ function shorten(message) {
     return command;
 }
 
-client.addListener('message' + config.channel, function (from, message) {
+client.addListener('message' + config.channel, function(from, message) {
     if (message.match(regex)) {
         //shorten data to send
         var command = shorten(message);
         //send to clients
+
+        if (commandsBuffer.length >= commandsBufferLength) {
+            commandsBuffer.shift();
+        }
+        commandsBuffer.push(command);
+
+        if (command === 'm' || command === 'n') {
+            if (politicsBuffer.length >= politicsBufferLength) {
+                politicsBuffer.shift();
+            }
+            politicsBuffer.push(command);
+        }
+
         common.io.sockets.emit('k', { 'k': command } );
     }
+});
+
+//when connection starts, send buffer (last x commands)
+common.io.sockets.on('connection', function(socket) {
+    socket.emit('i', { 'cb': commandsBuffer, 'pb': politicsBuffer } );
 });
 
 // client.addListener('message' + config.channel, function (from, message) {

@@ -33,19 +33,19 @@ var queue = [];
 var politicsQueue = [];
 // var perSecondQueue = [];
 var queueLength = 100;
-var politicsQueueLength = 2000;
+var politicsQueueLength = 1000;
 
-//when data is sent
-socket.on('k', function (data) {
+function addToCommands(command) {
     //add to array
-    var command = data.k;
     counts[command]++;
     // perSecondCounts[command]++;
     if (queue.length >= queueLength) {
         counts[queue.shift()]--;
     }
     queue.push(command);
+}
 
+function addToPolitics(command) {
     if (command === 'm' || command === 'n') {
         politicsCounts[command]++;
         if (politicsQueue.length >= politicsQueueLength) {
@@ -53,8 +53,31 @@ socket.on('k', function (data) {
         }
         politicsQueue.push(command);
     }
+}
 
+function processLastData(command) {
+    addToCommands(command);
+    addToPolitics(command);
     // perSecondQueue.push(command);
+}
+
+//when data is sent
+socket.on('k', function(data) {
+    var command = data.k;
+    processLastData(command);
+});
+
+
+socket.on('i', function(data) {
+    console.log(data.cb.length,data.pb.length);
+    var cb = data.cb,
+    pb = data.pb;
+    for (var i = 0; i < Math.min(cb.length,queueLength); i++) {
+        addToCommands(counts[i]);
+    }
+    for (var j = 0; j < Math.min(pb.length,politicsQueueLength); j++) {
+        addToPolitics(politicsCounts[j]);
+    }
 });
 
 // var commandsPerSecond = 0;
@@ -98,8 +121,8 @@ function animate() {
     democracy = counts.m,
     anarchy = counts.n,
     //normalize to 100
-    demVote = politicsCounts.m*(100/politicsQueueLength),
-    anaVote = politicsCounts.n*(100/politicsQueueLength),
+    politicsSum = politicsCounts.m + politicsCounts.n,
+    demVote = politicsCounts.m,
     dpad = up+down+left+right;
 
     //settings
@@ -174,7 +197,10 @@ function animate() {
     var politicsBarY = 238.5;
     ctx.beginPath();
     ctx.fillStyle= '#E82C0C';
-    ctx.fillRect(politicsBarX,politicsBarY-15*2,demVote-anaVote,5);
+    //minus 50 since that's the middle point
+    if (politicsSum > 0) {
+        ctx.fillRect(politicsBarX,politicsBarY-15*2,demVote*100/(politicsSum)-50,5);
+    }
     ctx.fillStyle='#000';
     //80% line
     ctx.fillRect(politicsBarX+30,politicsBarY-15*2-2,1,8);
@@ -205,7 +231,8 @@ function animate() {
 
     ctx.beginPath();
     ctx.fillStyle= '#555';
-    ctx.fillText('last ' + queue.length + ' keys',rectX+35,rectY-15);
+    //' + queue.length + '
+    ctx.fillText('last 100 keys',rectX+25,rectY-15);
     ctx.fill();
 
     // mag = sqrt(a^2+b^2), a = right-left, b = up - down
@@ -221,7 +248,7 @@ function animate() {
     ctx.stroke();
     ctx.beginPath();
     //longer line
-    ctx.strokeStyle = '#cccccc';
+    ctx.strokeStyle = '#bdbdbd';
     ctx.moveTo(originX,originY);
     ctx.lineTo(originX+Math.sin(direction)*100,originY+Math.cos(direction)*100);
     ctx.stroke();
@@ -231,19 +258,20 @@ function animate() {
     //arrow offset
     var arrowAngleOffset = 0.1;
     //arrow size
-    var arrowSizeDiff = 3;
+    var arrowSizeDiff = 3,
+    arrowHeadSize = 27;
     ctx.strokeStyle = '#000';
     ctx.lineTo(
-        originX + Math.sin(direction-arrowAngleOffset) * (mag-arrowSizeDiff),
-        originY + Math.cos(direction-arrowAngleOffset) * (mag-arrowSizeDiff)
+        originX + Math.sin(direction-arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize)),
+        originY + Math.cos(direction-arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize))
     );
     ctx.lineTo(
-        originX + Math.sin(direction+arrowAngleOffset) * (mag-arrowSizeDiff),
-        originY + Math.cos(direction+arrowAngleOffset) * (mag-arrowSizeDiff)
+        originX + Math.sin(direction+arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize)),
+        originY + Math.cos(direction+arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize))
     );
     ctx.lineTo(
-        originX + Math.sin(direction) * mag,
-        originY + Math.cos(direction) * mag
+        originX + Math.sin(direction) * Math.max(mag,arrowHeadSize+arrowSizeDiff),
+        originY + Math.cos(direction) * Math.max(mag,arrowHeadSize+arrowSizeDiff)
     );
     ctx.fill();
     ctx.stroke();

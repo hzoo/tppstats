@@ -2,11 +2,11 @@
 
 //create web server, socket.io connection
 var express = require('express'),
-	path = require('path'),
-	app = express(),
-	http = require('http'),
-	server = http.createServer(app),
-	common = require('./common.js');
+    path = require('path'),
+    app = express(),
+    http = require('http'),
+    server = http.createServer(app),
+    common = require('./common.js');
 
 //socket.io
 common.io = require('socket.io').listen(server);
