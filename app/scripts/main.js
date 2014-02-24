@@ -62,21 +62,21 @@ function processLastData(command) {
 }
 
 //when data is sent
-socket.on('k', function(data) {
-    var command = data.k;
-    processLastData(command);
+socket.on('cmd', function(data) {
+    // console.log('cmd: ', data);
+    processLastData(data);
 });
 
-
-socket.on('i', function(data) {
-    console.log(data.cb.length,data.pb.length);
-    var cb = data.cb,
-    pb = data.pb;
-    for (var i = 0; i < Math.min(cb.length,queueLength); i++) {
-        addToCommands(counts[i]);
+socket.on('cb', function(data) {
+    // console.log('cb: ',data);
+    for (var i = 0; i < Math.min(data.length,queueLength); i++) {
+        addToCommands(data[i].slice(0,1));
     }
-    for (var j = 0; j < Math.min(pb.length,politicsQueueLength); j++) {
-        addToPolitics(politicsCounts[j]);
+});
+socket.on('pb', function(data) {
+    // console.log('pb: ',data);
+    for (var j = 0; j < Math.min(data.length,politicsQueueLength); j++) {
+        addToPolitics(data[j].slice(0,1));
     }
 });
 
@@ -198,7 +198,7 @@ function animate() {
     ctx.beginPath();
     ctx.fillStyle= '#E82C0C';
     //minus 50 since that's the middle point
-    if (politicsSum > 0) {
+    if (politicsSum > 500) {
         ctx.fillRect(politicsBarX,politicsBarY-15*2,demVote*100/(politicsSum)-50,5);
     }
     ctx.fillStyle='#000';
