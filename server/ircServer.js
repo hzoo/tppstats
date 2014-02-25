@@ -1,6 +1,5 @@
+//connect to irc to store data
 var irc = require('irc'),
-// printf = require('printf'),
-// keyHandler = require('./keyHandler.js'),
 config = require('./config.js'),
 common = require('./common.js'),
 ts = require('./redisServer.js').ts,
@@ -19,10 +18,10 @@ var client = new irc.Client(config.server, config.nick, {
     autoRejoin: true
 });
 
-var commandsBufferLength = 100,
-commandsBuffer = [],
-politicsBufferLength = 1000,
-politicsBuffer = [];
+// var commandsBufferLength = 100,
+// commandsBuffer = [],
+// politicsBufferLength = 1000,
+// politicsBuffer = [];
 
 function addToBuffers(from, command) {
     // if (commandsBuffer.length >= commandsBufferLength) {
@@ -69,7 +68,7 @@ client.addListener('message' + config.channel, function(from, message) {
     }
 });
 
-// var stepInterval = 5000;
+// var stepInterval = 10000;
 // setInterval(function() {
 //     //redis
 //     var now = Date.now();
@@ -77,12 +76,12 @@ client.addListener('message' + config.channel, function(from, message) {
 //         if (err) {
 //             console.log('Error: ', err);
 //         }
-//         common.io.sockets.emit('lastCmds',res);
+//         common.io.sockets.emit('realtime',res);
 //     });
 // }, stepInterval);
 
 //when a connection starts, send buffer (last x commands)
-common.io.sockets.on('connection', function(socket) {
+// common.io.sockets.on('connection', function(socket) {
     //redis multi
     // var multi = redisClient.multi();
     // multi.zrevrange('commands',-1*commandsBufferLength,-1);
@@ -121,10 +120,11 @@ common.io.sockets.on('connection', function(socket) {
 
     //socket.emit('cb', commandsBuffer);
     //socket.emit('pb', politicsBuffer);
-});
+// });
 
 client.addListener('error', function(message) {
     console.log('error: ', message);
 });
 
 client.connect();
+console.log('irc client on ' + config.channel);

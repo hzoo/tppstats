@@ -8,6 +8,7 @@
     "printf": "~0.1.2",
     "socket.io": "~0.9.16",
     "redis": "~0.10.1",
-    "redis-timeseries": "^0.4.0"
+    "redis-timeseries": "^0.4.0",
+    "async": "^0.2.10"
   }
 }

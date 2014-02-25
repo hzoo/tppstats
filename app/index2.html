@@ -16,16 +16,32 @@
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/main3.css">
+        <link rel="stylesheet" href="styles/main2.css">
         <!-- endbuild -->
     </head>
     <body>
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
+        <div>
+            <h1 class="inline"><a href="http://www.twitch.tv/twitchplayspokemon">TPP</a> Stats</h1>
+            <h4 class="inline">by <a href="https://github.com/eltacodeldiablo/">eltacodeldiablo</a></h4>
+            <select onchange="changeScale(this)">
+              <option value="1e4">10 sec</option>
+              <option value="3e4">30 sec</option>
+              <option value="6e4">1 min</option>
+              <option value="6e5">10 min</option>
+              <option value="18e5">30 min</option>
+              <option value="36e5">1 hr</option>
+            </select>
+            <h5 class="inline" style="margin-left: 75px;">Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP</h5>
+        </div>
         <div id="demo1"></div>
         <div id="demo2"></div>
+        <div id="demo3"></div>
+        <div id="demo4"></div>
+        <div id="demo5"></div>
+
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
