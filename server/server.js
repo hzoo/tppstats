@@ -7,6 +7,8 @@ var async = require('async'),
     server = http.createServer(app),
     common = require('./common.js');
 
+require('./ircServer.js');
+
 //socket.io
 common.io = require('socket.io').listen(server);
 //reduce console logs
