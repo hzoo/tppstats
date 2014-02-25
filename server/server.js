@@ -10,7 +10,7 @@ var async = require('async'),
 require('./ircServer.js');
 
 //socket.io
-common.io = require('socket.io').listen(server).set('match origin protocol', true);;
+common.io = require('socket.io').listen(server).set('match origin protocol', true);
 
 var tss = require('./timeSeriesServer.js'),
 ts = require('./redisServer.js').ts;
@@ -21,6 +21,7 @@ app.configure('development', function(){
     app.use(express.static(path.normalize(__dirname + '/../app')));
     //reduce console logs
     common.io.set('log level', 1);
+    io.set('transports', ['websocket']);
 });
 app.configure('production', function(){
     app.use(express.static(path.normalize(__dirname + '/../dist')));
@@ -29,6 +30,12 @@ app.configure('production', function(){
     common.io.enable('browser client minification');  // send minified client
     common.io.enable('browser client etag');          // apply etag caching logic based on version number
     common.io.enable('browser client gzip');          // gzip the file
+    io.set('transports', [
+        'websocket',
+        'htmlfile',
+        'xhr-polling',
+        'jsonp-polling'
+    ]);
 });
 
 //port to 8080
@@ -44,7 +51,7 @@ common.io.sockets.on('connection', function(socket) {
     socket.on('graphInfo', function(data){
         var granularityLabel = data.step;
         if (ts.granularities.hasOwnProperty(granularityLabel)) {
-            granularityDuration = ts.granularities[granularityLabel].duration;
+            var granularityDuration = ts.granularities[granularityLabel].duration;
             // console.log(granularityLabel,granularityDuration);
             async.parallel(tss.commands.map(
                 function(cmd) {
