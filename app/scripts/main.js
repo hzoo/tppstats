@@ -1,4 +1,4 @@
-//connect
+/* exported changeScale */
 
 if (location.host.split(':')[0] === 'localhost') {
     var socket = io.connect('http://localhost:8080');
@@ -6,282 +6,208 @@ if (location.host.split(':')[0] === 'localhost') {
     var socket = io.connect(location.host);
 }
 
-//use instead of setInterval/setTimeout
-//http://creativejs.com/resources/requestanimationframe/
-(function () {
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
-        window.setTimeout(callback, 1000 / 60);
-    };
-    window.requestAnimationFrame = requestAnimationFrame;
-})();
+var realTimeData = {'a':[],'b':[],'u':[],'l':[],'r':[],'d':[],'s':[],'e':[],'n':[],'m':[]},
+commands = ['a','b','u','l','r','d','s','e','n','m'],
+graphSize = 720,
+queueLength = graphSize,
+keymap = {
+    'up':'u',
+    'left':'l',
+    'down':'d',
+    'right':'r',
+    'a':'a',
+    'b':'b',
+    'democracy':'m',
+    'anarchy':'n',
+    'start':'s',
+    'select':'e'
+};
 
-//initial state of commands
-function resetCounts() {
-    //e = select, n = anarchy, d = democracy
-    return {'a':0,'b':0,'u':0,'l':0,'r':0,'d':0,'s':0,'e':0,'n':0,'m':0};
-}
-var counts = resetCounts();
-// var perSecondCounts = resetCounts();
-var politicsCounts = {'n':0,'m':0};
 
-//get canvas
-var canvas = document.querySelector('canvas');
-var ctx = canvas.getContext('2d');
-
-//queue to keep count of the last queueLength commands
-var queue = [];
-var politicsQueue = [];
-// var perSecondQueue = [];
-var queueLength = 100;
-var politicsQueueLength = 1000;
-
-function addToCommands(command) {
-    //add to array
-    counts[command]++;
-    // perSecondCounts[command]++;
-    if (queue.length >= queueLength) {
-        counts[queue.shift()]--;
+function makeWithConcat(len) {
+    var a, rem, currlen;
+    if (len === 0) {
+        return [];
     }
-    queue.push(command);
-}
-
-function addToPolitics(command) {
-    if (command === 'm' || command === 'n') {
-        politicsCounts[command]++;
-        if (politicsQueue.length >= politicsQueueLength) {
-            politicsCounts[politicsQueue.shift()]--;
+    a = [0];
+    currlen = 1;
+    while (currlen < len) {
+        rem = len - currlen;
+        if (rem < currlen) {
+            a = a.concat(a.slice(0, rem));
         }
-        politicsQueue.push(command);
+        else {
+            a = a.concat(a);
+        }
+        currlen = a.length;
+    }
+    return a;
+}
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
+        results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+// 1e4 or 10 seconds, 6e4 or 1 minute, 3e5 or 5 minutes, 36e5 or 1 hour
+var commandList = ['start', 'a', 'b', 'up', 'down', 'left', 'right'],//, 'select'],
+step = Number(getParameterByName('step')) || 1e4,
+context = cubism.context()
+    .serverDelay(100)
+    .clientDelay(0)
+    .step(step)
+    .size(graphSize);
+
+//create metric
+function command(name) {
+    var firstTime = true,
+    values = [];
+    // last;
+    return context.metric(function(start, stop, step, callback) {
+        if (firstTime) {
+            var data = realTimeData[keymap[name]];
+            firstTime = false;
+            // start = +start;
+            // stop = +stop;
+            // if (isNaN(last)) { last = start; }
+            // while (last < stop) {
+            //     last += step;
+            //     values.push(1);
+            // }
+            values = makeWithConcat(graphSize - data.length);
+            values = values.concat(data);
+            callback(null, values = values.slice((start - stop) / step));
+        } else {
+            // console.log(realTimeData[keymap[name]]);
+            values = realTimeData[keymap[name]];
+            callback(null, values = values.slice((start - stop) / step));
+        }
+    }, name);
+}
+
+var demo = command('democracy'),
+anar = command('anarchy');
+
+var granularities = {
+    1e4:'10seconds',
+    3e4:'30seconds',
+    6e4:'1minute',
+    6e5:'10minutes',
+    18e5:'30minutes' ,
+    36e5:'1hour'
+};
+
+var sel = document.querySelector('select');
+for(var j = 0; j < sel.options.length; j++) {
+    var i = sel.options[j];
+    if(i.value === Number(getParameterByName('step'))) {
+        sel.selectedIndex = j;
+        break;
     }
 }
 
-function processLastData(command) {
-    addToCommands(command);
-    addToPolitics(command);
-    // perSecondQueue.push(command);
-}
-
-//when data is sent
-socket.on('cmd', function(data) {
-    // console.log('cmd: ', data);
-    processLastData(data);
+context.on('focus', function(i) {
+    d3.selectAll('.value').style('right',                  // Make the rule coincide
+        i === null ? null : context.size() - i + 'px'); // with the mouse
 });
 
-socket.on('cb', function(data) {
-    // console.log('cb: ',data);
-    for (var i = 0; i < Math.min(data.length,queueLength); i++) {
-        addToCommands(data[i].slice(0,1));
-    }
-});
-socket.on('pb', function(data) {
-    // console.log('pb: ',data);
-    for (var j = 0; j < Math.min(data.length,politicsQueueLength); j++) {
-        addToPolitics(data[j].slice(0,1));
-    }
-});
+socket.emit('graphInfo', {'step': granularities[step.toString()] });
 
-// var commandsPerSecond = 0;
-//check commands/second
-// setInterval(function() {
-//     commandsPerSecond = perSecondQueue.length;
-//     perSecondQueue = [];
-//     perSecondCounts = resetCounts();
-// }, 1000);
-
-function pad(number, size) {
-    number = number.toString();
-    while (number.length < size) { number = ' ' + number; }
-    return number;
+function changeScale(sel){
+    window.location.search = 'step='+sel.value;
 }
 
-function animate() {
-    //clear canvas state
-    //canvas.width hack is slow
-    //ctx.clearRect itself does not clear properly with modified transform matrix
-    //http://stackoverflow.com/questions/2142535/how-to-clear-the-canvas-for-redrawing
+function startGraph() {
 
-    // Store the current transformation matrix
-    ctx.save();
+    d3.select('#demo1').call(function (div) {
+        //axis
+        div.append('div').attr('class', 'axis').call(context.axis().orient('top'));
 
-    // Use the identity matrix while clearing the canvas
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //horizon chart
+        div.selectAll('.horizon')
+                .data([demo.subtract(anar)])
+            .enter().append('div')
+                .attr('class', 'horizon')
+                .call(context.horizon()
+                    .height(60)
+                    .extent([-15,15].map(function(d) {return d*step/1000/4;}))
+                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+                );
 
-    // Restore the transform
-    ctx.restore();
+        //line
+        div.append('div')
+             .attr('class', 'rule')
+             .call(context.rule());
+    });
 
-    var a = counts.a,
-    b = counts.b,
-    up = counts.u,
-    down = counts.d,
-    left = counts.l,
-    right = counts.r,
-    start = counts.s,
-    select = counts.e,
-    democracy = counts.m,
-    anarchy = counts.n,
-    //normalize to 100
-    politicsSum = politicsCounts.m + politicsCounts.n,
-    demVote = politicsCounts.m,
-    dpad = up+down+left+right;
+    d3.select('#demo2').call(function (div) {
+        //horizon chart
+        div.selectAll('.horizon')
+                .data(commandList.map(command))
+            .enter().append('div')
+                .attr('class', 'horizon')
+                .call(context.horizon()
+                    .height(60)
+                    .extent([0,60].map(function(d) {return d*step/1000/8;}))
+                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+                );
+    });
 
-    //settings
-    ctx.globalAlpha = 0.25;
-    ctx.lineWidth = 0.5;
-    ctx.strokeStyle = '#AAA';
+    var up = command('up'),
+    down = command('down'),
+    left = command('left'),
+    right = command('right'),
+    dpad = up.add(down).add(left).add(right),
+    vertical = up.subtract(down),
+    horizontal = right.subtract(left);
 
-    //axes
-    var num1 = 100.5;
-    ctx.moveTo(num1,0.5);
-    ctx.lineTo(num1,200.5);
-    ctx.moveTo(0.5,num1);
-    ctx.lineTo(200.5,num1);
-    ctx.stroke();
-
-    //up,down,left,right
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 0.5;
-    ctx.fillStyle = '#EEE';
-
-    //make these larger
-    var multipler = 3;
-    ctx.moveTo(num1, num1-up*multipler);
-    ctx.lineTo(num1+right*multipler, num1);
-    ctx.lineTo(num1,num1+down*multipler);
-    ctx.lineTo(num1-left*multipler,num1);
-    ctx.lineTo(num1,num1-up*multipler);
-    ctx.stroke();
-    ctx.fill();
-
-    ctx.globalAlpha = 1;
-    ctx.fillStyle='#000';
-
-    //bold axes
-    // ctx.fillRect(num1,num1,1,-up);
-    // ctx.fillRect(num1,num1,1,down);
-    // ctx.fillRect(num1,num1,-left,1);
-    // ctx.fillRect(num1,num1,right,1);
-
-    //other buttons
-    ctx.beginPath();
-    var rectX = 250.5;
-    var rectY = 60.5;
-    ctx.fillRect(rectX,rectY,a,5);
-    ctx.fillRect(rectX,rectY+15*1,b,5);
-    ctx.fillRect(rectX,rectY+15*2,start,5);
-    ctx.fillRect(rectX,rectY+15*3,select,5);
-    ctx.fillRect(rectX,rectY+15*4,democracy,5);
-    ctx.fillRect(rectX,rectY+15*5,anarchy,5);
-    ctx.fillRect(rectX,rectY+15*6,dpad,5);
-    ctx.font = '10px Arial';
-    ctx.fillText('A',rectX-35,rectY+5);
-    ctx.fillText('B',rectX-35,rectY+5+15*1);
-    ctx.fillText('STAR',rectX-35,rectY+5+15*2);
-    ctx.fillText('SELE',rectX-35,rectY+5+15*3);
-    ctx.fillText('DEMO',rectX-35,rectY+5+15*4);
-    ctx.fillText('ANAR',rectX-35,rectY+5+15*5);
-    ctx.fillText('DPAD',rectX-35,rectY+5+15*6);
-    //%s
-    ctx.fillText(pad(a        ,2),rectX+117,rectY+5);
-    ctx.fillText(pad(b        ,2),rectX+117,rectY+5+15*1);
-    ctx.fillText(pad(start    ,2),rectX+117,rectY+5+15*2);
-    ctx.fillText(pad(select   ,2),rectX+117,rectY+5+15*3);
-    ctx.fillText(pad(democracy,2),rectX+117,rectY+5+15*4);
-    ctx.fillText(pad(anarchy  ,2),rectX+117,rectY+5+15*5);
-    ctx.fillText(pad(dpad     ,2),rectX+117,rectY+5+15*6);
-    //edge
-    ctx.fill();
-
-    //demo/anarchy bar
-    var politicsBarX = canvas.width/2;
-    var politicsBarY = 238.5;
-    ctx.beginPath();
-    ctx.fillStyle= '#E82C0C';
-    //minus 50 since that's the middle point
-    if (politicsSum > 500) {
-        ctx.fillRect(politicsBarX,politicsBarY-15*2,demVote*100/(politicsSum)-50,5);
-    }
-    ctx.fillStyle='#000';
-    //80% line
-    ctx.fillRect(politicsBarX+30,politicsBarY-15*2-2,1,8);
-    //50% line
-    ctx.fillRect(politicsBarX,politicsBarY-15*2-2,1,8);
-    //edges
-    ctx.fillStyle='#aaaaaa';
-    ctx.fillRect(politicsBarX+50,politicsBarY-15*2-2,1,8);
-    ctx.fillRect(politicsBarX-50,politicsBarY-15*2-2,1,8);
-
-    ctx.fillStyle='#000';
-    ctx.font = '10px Arial';
-    ctx.fillText('DEMOCRACY',politicsBarX+54,politicsBarY+5-15*2);
-    ctx.fillText('ANARCHY',politicsBarX-104,politicsBarY+5-15*2);
-    ctx.fill();
-
-    //calculate magnitude/direction
-    var direction = Math.atan2((right-left)/2,(down-up)/2);
-
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 1;
-
-    ctx.beginPath();
-    ctx.fillStyle= '#b2b2b2';
-    ctx.fillText('AVG direction of RED',50.5,140.5);
-    ctx.fill();
-    ctx.fillStyle= '#000';
-
-    ctx.beginPath();
-    ctx.fillStyle= '#555';
-    //' + queue.length + '
-    ctx.fillText('last 100 keys',rectX+25,rectY-15);
-    ctx.fill();
-
-    // mag = sqrt(a^2+b^2), a = right-left, b = up - down
-    var mag = Math.sqrt((right-left)*(right-left) + (up-down)*(up-down));
-    if (mag < 4) { mag = 4; }
-
-    //arrow line/mag
-    var originX = 100.5;
-    var originY = 100.5;
-    ctx.strokeStyle = '#E82C0C';
-    ctx.moveTo(originX,originY);
-    ctx.lineTo(originX+Math.sin(direction)*mag,originY+Math.cos(direction)*mag);
-    ctx.stroke();
-    ctx.beginPath();
-    //longer line
-    ctx.strokeStyle = '#bdbdbd';
-    ctx.moveTo(originX,originY);
-    ctx.lineTo(originX+Math.sin(direction)*100,originY+Math.cos(direction)*100);
-    ctx.stroke();
-    ctx.beginPath();
-
-    //arrow head
-    //arrow offset
-    var arrowAngleOffset = 0.1;
-    //arrow size
-    var arrowSizeDiff = 3,
-    arrowHeadSize = 27;
-    ctx.strokeStyle = '#000';
-    ctx.lineTo(
-        originX + Math.sin(direction-arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize)),
-        originY + Math.cos(direction-arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize))
-    );
-    ctx.lineTo(
-        originX + Math.sin(direction+arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize)),
-        originY + Math.cos(direction+arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize))
-    );
-    ctx.lineTo(
-        originX + Math.sin(direction) * Math.max(mag,arrowHeadSize+arrowSizeDiff),
-        originY + Math.cos(direction) * Math.max(mag,arrowHeadSize+arrowSizeDiff)
-    );
-    ctx.fill();
-    ctx.stroke();
-
-    //commands/sec
-    // ctx.fillStyle='#000';
-    // ctx.font = '10px Arial';
-    // ctx.fillText(commandsPerSecond+' keys/s',290,175);
-
-    window.requestAnimationFrame(animate);
+    d3.select('#demo3').call(function (div) {
+        //horizon chart
+        div.selectAll('.horizon')
+                .data([dpad])
+            .enter().append('div')
+                .attr('class', 'horizon')
+                .call(context.horizon()
+                    .height(60)
+                    .extent([0,100].map(function(d) {return d*step/1000/8;}))
+                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+                    .title('dpad')
+                );
+    });
+    d3.select('#demo4').call(function (div) {
+        //horizon chart
+        div.selectAll('.horizon')
+                .data([vertical,horizontal])
+            .enter().append('div')
+                .attr('class', 'horizon')
+                .call(context.horizon()
+                    .height(60)
+                    .extent([-30,30].map(function(d) {return d*step/1000/8;}))
+                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+                    .title(function(d,i) {
+                        if (i === 0) { return 'vertical'; }
+                        else if (i === 1) { return 'horizontal'; }
+                    })
+                );
+    });
 }
 
-animate();
+socket.on('realtime', function(data) {
+    // console.log('realtime: ', data);
+    for (var i = 0; i < data.length; i++) {
+        if (realTimeData[commands[i]].length >= queueLength) {
+            realTimeData[commands[i]].shift();
+        }
+        realTimeData[commands[i]].push(data[i][0]);
+    }
+});
+
+socket.on('history', function(data) {
+    // console.log('HISTORY!', data);
+    for (var i = 0; i < data.length; i++) {
+        realTimeData[commands[i]] = data[i];
+    }
+    startGraph();
+});
