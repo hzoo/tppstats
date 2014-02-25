@@ -11,8 +11,6 @@ require('./ircServer.js');
 
 //socket.io
 common.io = require('socket.io').listen(server).set('match origin protocol', true);;
-//reduce console logs
-common.io.set('log level', 1);
 // assuming io is the Socket.IO server object
 // common.io.configure(function () {
 //   common.io.set("transports", ["xhr-polling"]);
@@ -25,9 +23,13 @@ ts = require('./redisServer.js').ts;
 app.use(express.compress());
 app.configure('development', function(){
     app.use(express.static(path.normalize(__dirname + '/../app')));
+    //reduce console logs
+    common.io.set('log level', 1);
 });
 app.configure('production', function(){
     app.use(express.static(path.normalize(__dirname + '/../dist')));
+    //reduce console logs
+    common.io.set('log level', 0);
 });
 
 //port to 8080
