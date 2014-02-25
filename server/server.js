@@ -1,3 +1,6 @@
+//test
+require('newrelic');
+
 //create web server, socket.io
 var async = require('async'),
     express = require('express'),
