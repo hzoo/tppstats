@@ -16,7 +16,8 @@
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/main2.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/graph.css">
         <!-- endbuild -->
     </head>
     <body>
@@ -34,7 +35,7 @@
               <!-- <option value="18e5">30 min</option> -->
               <!-- <option value="36e5">1 hr</option> -->
             </select>
-            <h5 class="inline" style="margin-left: 75px;">Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP</h5>
+                        <h5 class="inline right">Need <a href="http://square.github.io/cubism/">Help</a> with the graphs?</h5>
         </div>
         <div id="demo1"></div>
         <div id="demo2"></div>
@@ -42,8 +43,8 @@
         <div id="demo4"></div>
         <!-- <div id="demo5"></div> -->
         <div>
+            <h5 class="inline right">Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP</h5>
             <h5 class="inline">Also <a href="http://twitchplays.herokuapp.com">TwitchPlays</a> for more real-time button inputs</h5>
-            <h5 class="inline" style="float: right"><a href="http://square.github.io/cubism/">Help</a> with the graphs?</h5>
         </div>
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
@@ -56,6 +57,7 @@
             + (location.host || 'localhost:8080')
             + '/socket.io/socket.io.js"></'
             + 'script>')</script>
+
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
         <!-- endbuild -->

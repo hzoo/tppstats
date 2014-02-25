@@ -1,0 +1,23 @@
+html {
+    min-width: 720px;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    margin: auto;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    width: 720px;
+    position: relative;
+}
+a {
+    color: steelblue;
+}
+    a:not(:hover) {
+        text-decoration: none;
+    }
+.inline {
+    display: inline-block;
+}
+.right {
+     float: right;
+}

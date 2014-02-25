@@ -11,11 +11,7 @@ require('./ircServer.js');
 
 //socket.io
 common.io = require('socket.io').listen(server).set('match origin protocol', true);;
-// assuming io is the Socket.IO server object
-// common.io.configure(function () {
-//   common.io.set("transports", ["xhr-polling"]);
-//   common.io.set("polling duration", 10);
-// });
+
 var tss = require('./timeSeriesServer.js'),
 ts = require('./redisServer.js').ts;
 
@@ -30,6 +26,9 @@ app.configure('production', function(){
     app.use(express.static(path.normalize(__dirname + '/../dist')));
     //reduce console logs
     common.io.set('log level', 0);
+    common.io.enable('browser client minification');  // send minified client
+    common.io.enable('browser client etag');          // apply etag caching logic based on version number
+    common.io.enable('browser client gzip');          // gzip the file
 });
 
 //port to 8080
