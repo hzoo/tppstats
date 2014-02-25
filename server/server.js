@@ -21,7 +21,7 @@ app.configure('development', function(){
     app.use(express.static(path.normalize(__dirname + '/../app')));
     //reduce console logs
     common.io.set('log level', 1);
-    io.set('transports', ['websocket']);
+    common.io.set('transports', ['websocket']);
 });
 app.configure('production', function(){
     app.use(express.static(path.normalize(__dirname + '/../dist')));
@@ -30,7 +30,7 @@ app.configure('production', function(){
     common.io.enable('browser client minification');  // send minified client
     common.io.enable('browser client etag');          // apply etag caching logic based on version number
     common.io.enable('browser client gzip');          // gzip the file
-    io.set('transports', [
+    common.io.set('transports', [
         'websocket',
         'htmlfile',
         'xhr-polling',
