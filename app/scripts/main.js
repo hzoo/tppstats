@@ -95,14 +95,13 @@ var granularities = {
     3e4:'30seconds',
     6e4:'1minute',
     6e5:'10minutes',
-    18e5:'30minutes' ,
     36e5:'1hour'
 };
 
 var sel = document.querySelector('select');
 for(var j = 0; j < sel.options.length; j++) {
     var i = sel.options[j];
-    if(i.value === Number(getParameterByName('step'))) {
+    if(Number(i.value) === Number(getParameterByName('step'))) {
         sel.selectedIndex = j;
         break;
     }
