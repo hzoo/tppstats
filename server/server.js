@@ -27,7 +27,7 @@ console.log('http server listening on port ' + port);
 //send history on connection (in parallel)
 //redis pipes data so it's in order
 common.io.sockets.on('connection', function(socket) {
-    console.log('client connected', socket.id);
+    // console.log('client connected', socket.id);
 
     socket.on('graphInfo', function(data){
         var granularityLabel = data.step;
@@ -48,9 +48,6 @@ common.io.sockets.on('connection', function(socket) {
                             socket.emit('realtime',data);
                         });
             }, granularityDuration*1000);
-        } else {
-            socket.manager.onClientDisconnect(socket.id);
-            console.log('client disconnected', socket.id);
         }
     });
 });

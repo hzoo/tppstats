@@ -145,7 +145,7 @@ function start_graph() {
                 .attr('class', 'horizon')
                 .call(context.horizon()
                     .height(60)
-                    .extent([-30,30])
+                    .extent([-15,15].map(function(d) {return d*step/1000/4;}))
                     .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
                 );
 
@@ -163,7 +163,7 @@ function start_graph() {
                 .attr('class', 'horizon')
                 .call(context.horizon()
                     .height(60)
-                    .extent([0,60])
+                    .extent([0,60].map(function(d) {return d*step/1000/8;}))
                     .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
                 );
     });
@@ -183,7 +183,7 @@ function start_graph() {
                 .attr('class', 'horizon')
                 .call(context.horizon()
                     .height(60)
-                    .extent([0,100])
+                    .extent([0,100].map(function(d) {return d*step/1000/8;}))
                     .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
                     .title('dpad')
                 );
@@ -196,7 +196,7 @@ function start_graph() {
                 .attr('class', 'horizon')
                 .call(context.horizon()
                     .height(60)
-                    .extent([-30,30])
+                    .extent([-30,30].map(function(d) {return d*step/1000/8;}))
                     .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
                     .title(function(d,i) {
                         if (i === 0) { return 'vertical'; }
