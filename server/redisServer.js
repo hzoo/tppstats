@@ -1,11 +1,10 @@
-var redis;
 if (process.env.REDISTOGO_URL) {
-    console.log(process.env.REDISTOGO_URL);
-    var rtg  = require('url').parse(process.env.REDISTOGO_URL);
+    console.log('url: ' + process.env.REDISTOGO_URL);
+    var rtg  = require('url').parse(process.env.REDISTOGO_URL),
     redis = require('redis').createClient(rtg.port, rtg.hostname);
-    redis.client.auth(rtg.auth.split(':')[1]);
+    redis.auth(rtg.auth.split(':')[1]);
 } else {
-    redis = require('redis').createClient();
+    var redis = require('redis').createClient();
 }
 
 var TimeSeries = require('redis-timeseries'),
