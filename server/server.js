@@ -10,9 +10,14 @@ var async = require('async'),
 require('./ircServer.js');
 
 //socket.io
-common.io = require('socket.io').listen(server);
+common.io = require('socket.io').listen(server).set('match origin protocol', true);;
 //reduce console logs
 common.io.set('log level', 1);
+// assuming io is the Socket.IO server object
+// common.io.configure(function () {
+//   common.io.set("transports", ["xhr-polling"]);
+//   common.io.set("polling duration", 10);
+// });
 var tss = require('./timeSeriesServer.js'),
 ts = require('./redisServer.js').ts;
 
