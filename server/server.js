@@ -23,13 +23,17 @@ ts = require('./redisServer.js').ts;
 
 //serve webapp
 app.use(express.compress());
-// app.use(express.static(path.normalize(__dirname + '/../app')));
-app.use(express.static(path.normalize(__dirname + '/../dist')));
+app.configure('development', function(){
+    app.use(express.static(path.normalize(__dirname + '/../app')));
+});
+app.configure('production', function(){
+    app.use(express.static(path.normalize(__dirname + '/../dist')));
+});
 
 //port to 8080
 var port = Number(process.env.PORT || 8080);
 server.listen(port);
-console.log('http server listening on port ' + port);
+console.log('http server listening on port ' + port + ' in ' + app.settings.env + ' mode');
 
 //send history on connection (in parallel)
 //redis pipes data so it's in order
