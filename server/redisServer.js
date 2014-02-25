@@ -1,9 +1,10 @@
-if (process.env.REDISCLOUD_URL) {
-    console.log('url: ' + process.env.REDISCLOUD_URL);
-    var redisURL = require('url').parse(process.env.REDISCLOUD_URL);
-    var client = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
-    client.auth(redisURL.auth.split(":")[1]);
-} else if (process.env.REDISTOGO_URL) {
+// if (process.env.REDISCLOUD_URL) {
+//     console.log('url: ' + process.env.REDISCLOUD_URL);
+//     var redisURL = require('url').parse(process.env.REDISCLOUD_URL);
+//     var client = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+//     client.auth(redisURL.auth.split(":")[1]);
+// }
+if (process.env.REDISTOGO_URL) {
     console.log('url: ' + process.env.REDISTOGO_URL);
     var rtg  = require('url').parse(process.env.REDISTOGO_URL),
     redis = require('redis').createClient(rtg.port, rtg.hostname);
