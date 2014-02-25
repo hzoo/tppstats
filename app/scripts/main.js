@@ -191,6 +191,32 @@ function startGraph() {
                     })
                 );
     });
+    // d3.select('#demo4').call(function (div) {
+    //     //horizon chart
+    //     div.selectAll('.comparison')
+    //             .data([[up,down]])
+    //         .enter().append('div')
+    //             .attr('class', 'comparison')
+    //             .call(context.comparison()
+    //                 .height(60)
+    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
+    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+    //                 .title('vertical | ')
+    //             );
+    // });
+    // d3.select('#demo5').call(function (div) {
+    //     //horizon chart
+    //     div.selectAll('.comparison')
+    //             .data([[left,right]])
+    //         .enter().append('div')
+    //             .attr('class', 'comparison')
+    //             .call(context.comparison()
+    //                 .height(60)
+    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
+    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+    //                 .title('horizontal | ')
+    //             );
+    // });
 }
 
 socket.on('realtime', function(data) {

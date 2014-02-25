@@ -22,7 +22,7 @@ ts.granularities = {
     '30seconds'  : { ttl: ts.hours(6)  , duration: 30 },
     '1minute'  : { ttl: ts.hours(42)  , duration: ts.minutes(1) },
     // '5minutes' : { ttl: ts.days(2.5) , duration: ts.minutes(5) },
-    '10minutes': { ttl: ts.days(5)   , duration: ts.minutes(10) },
+    // '10minutes': { ttl: ts.days(5)   , duration: ts.minutes(10) },
     // '30minutes': { ttl: ts.days(15)   , duration: ts.minutes(30) },
     '1hour'    : { ttl: ts.days(30)   , duration: ts.hours(1) }
     // '1day'     : { ttl: ts.weeks(52) , duration: ts.days(1) }
