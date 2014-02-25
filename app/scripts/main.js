@@ -3,7 +3,7 @@
 if (location.host.split(':')[0] === 'localhost') {
     var socket = io.connect('http://localhost:8080');
 } else {
-    var socket = io.connect(location.host, {secure: true});
+    var socket = io.connect(location.host);
 }
 
 var realTimeData = {'a':[],'b':[],'u':[],'l':[],'r':[],'d':[],'s':[],'e':[],'n':[],'m':[]},
