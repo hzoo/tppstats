@@ -32,7 +32,7 @@ var ircConfig = {
     //example of regex
     //don't need to modify if you need anarchy mode
     //matches for any of the words in 'commands'
-    regexCommands: new RegExp('^(' + commands.join('|') + ')$', 'i')
+    regexCommands: new RegExp('^(' + commands.join('|') + ')\d?$', 'i')
 };
 
 module.exports = ircConfig;

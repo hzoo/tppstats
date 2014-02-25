@@ -57,7 +57,8 @@ function shorten(message) {
 }
 
 client.addListener('message' + config.channel, function(from, message) {
-    if (message.match(config.regexCommands)) {
+    var trimMessage = message.trim();
+    if (trimMessage.match(config.regexCommands)) {
         //shorten data to send
         var command = shorten(message);
         //add to buffers
