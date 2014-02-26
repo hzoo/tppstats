@@ -15,9 +15,9 @@ a {
     a:not(:hover) {
         text-decoration: none;
     }
-.inline {
+.container *,.footer * {
     display: inline-block;
 }
-.right {
-     float: right;
+.container select {
+    width: 80px;
 }
