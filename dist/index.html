@@ -11,34 +11,36 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" href="styles/d41d8cd9.vendor.css">
-        <link rel="stylesheet" href="styles/72de0868.main.css">
+        <link rel="stylesheet" href="styles/470f4aa2.main.css">
     </head>
     <body>
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div>
-            <h1 class="inline"><a href="http://www.twitch.tv/twitchplayspokemon">TPP</a> Stats</h1>
-            <h4 class="inline">by <a href="https://github.com/eltacodeldiablo/">eltacodeldiablo</a></h4>
+        <div class="container">
+            <h1><a href="http://www.twitch.tv/twitchplayspokemon">TPP</a> Stats</h1>
+            <h4>by <a href="https://github.com/eltacodeldiablo/">eltacodeldiablo</a></h4>
             <select onchange="changeScale(this)">
               <option value="1e4">10 sec</option>
               <option value="3e4">30 sec</option>
               <option value="6e4">1 min</option>
-              <!-- <option value="6e5">10 min</option> -->
-              <!-- <option value="18e5">30 min</option> -->
-              <!-- <option value="36e5">1 hr</option> -->
+              <option value="6e5">10 min</option>
+              <option value="18e5">30 min</option>
+              <option value="36e5">1 hr</option>
             </select>
-                        <h5 class="inline right">&nbsp;<a href="http://www.reddit.com/r/twitchplayspokemon/comments/1ywmz6/live_tpp_button_stats/">Feedback</a></h5>
-                        <h5 class="inline right">Need <a href="http://square.github.io/cubism/">Help</a> with the graphs? |</h5>
+            <div style="margin-left: 90px">
+                <h5>Need <a href="http://square.github.io/cubism/">Help</a> with the graphs? |</h5>
+                <h5><a href="http://www.reddit.com/r/twitchplayspokemon/comments/1ywmz6/live_tpp_button_stats/">Feedback</a></h5>
+            </div>
         </div>
         <div id="demo1"></div>
         <div id="demo2"></div>
         <div id="demo3"></div>
         <div id="demo4"></div>
-        <!-- <div id="demo5"></div> -->
-        <div>
-            <h5 class="inline right">Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP</h5>
-            <h5 class="inline">Also <a href="http://twitchplays.herokuapp.com">TwitchPlays</a> for more real-time button inputs</h5>
+        <div id="demo5"></div>
+        <div class="footer">
+            <h5>Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP</h5>
+            <h5 style="margin-left: 130px">Also <a href="http://twitchplays.herokuapp.com">TwitchPlays</a> for more real-time button inputs</h5>
         </div>
         <script src="scripts/c993dffb.vendor.js"></script>
 
