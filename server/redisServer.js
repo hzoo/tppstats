@@ -1,16 +1,20 @@
-// if (process.env.REDISCLOUD_URL) {
-//     console.log('url: ' + process.env.REDISCLOUD_URL);
-//     var redisURL = require('url').parse(process.env.REDISCLOUD_URL);
-//     var client = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
-//     client.auth(redisURL.auth.split(":")[1]);
-// }
-if (process.env.REDISTOGO_URL) {
+if (process.env.REDISCLOUD_URL) {
+    console.log('url: ' + process.env.REDISCLOUD_URL);
+    var redisURL = require('url').parse(process.env.REDISCLOUD_URL);
+    var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+    redis.auth(redisURL.auth.split(':')[1]);
+}
+else if (process.env.REDISTOGO_URL) {
     console.log('url: ' + process.env.REDISTOGO_URL);
     var rtg  = require('url').parse(process.env.REDISTOGO_URL),
     redis = require('redis').createClient(rtg.port, rtg.hostname);
     redis.auth(rtg.auth.split(':')[1]);
 } else {
+    console.log('local redis');
     var redis = require('redis').createClient();
+    // var redisURL = require('url').parse(url);
+    // var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+    // redis.auth(redisURL.auth.split(':')[1]);
 }
 
 var TimeSeries = require('redis-timeseries'),

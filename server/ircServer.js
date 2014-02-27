@@ -43,6 +43,7 @@ function addToBuffers(from, command) {
     //     redisClient.zadd('politics',date,command+ '' +date);
     // }
 
+    // console.log(from,command);
     //with redis-timeseries
     ts.recordHit(command).exec();
 }
