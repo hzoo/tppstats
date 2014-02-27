@@ -95,6 +95,7 @@ var granularities = {
     3e4:'30seconds',
     6e4:'1minute',
     6e5:'10minutes',
+    18e5:'30minutes',
     36e5:'1hour'
 };
 
