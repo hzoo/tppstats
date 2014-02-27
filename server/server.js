@@ -7,7 +7,6 @@ var async = require('async'),
     server = http.createServer(app),
     common = require('./common.js');
 
-require('./ircServer.js');
 
 //socket.io
 common.io = require('socket.io').listen(server).set('match origin protocol', true);
@@ -24,6 +23,8 @@ app.configure('development', function(){
     common.io.set('transports', ['websocket']);
 });
 app.configure('production', function(){
+    require('./ircServer.js');
+
     app.use(express.static(path.normalize(__dirname + '/../dist')));
     //reduce console logs
     common.io.set('log level', 0);

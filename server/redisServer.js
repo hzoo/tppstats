@@ -10,11 +10,14 @@ else if (process.env.REDISTOGO_URL) {
     redis = require('redis').createClient(rtg.port, rtg.hostname);
     redis.auth(rtg.auth.split(':')[1]);
 } else {
-    console.log('local redis');
-    var redis = require('redis').createClient();
-    // var redisURL = require('url').parse(url);
-    // var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
-    // redis.auth(redisURL.auth.split(':')[1]);
+    //console.log('local redis');
+    //var redis = require('redis').createClient();
+
+    //test server redis
+    var url = 'REDIS_URL_HERE';
+    var redisURL = require('url').parse(url);
+    var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+    redis.auth(redisURL.auth.split(':')[1]);
 }
 
 var TimeSeries = require('redis-timeseries'),
