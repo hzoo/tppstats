@@ -53,7 +53,7 @@ common.io.sockets.on('connection', function(socket) {
         var granularityLabel = data.step;
         if (ts.granularities.hasOwnProperty(granularityLabel)) {
             var granularityDuration = ts.granularities[granularityLabel].duration;
-            console.log(granularityLabel,granularityDuration);
+            // console.log(granularityLabel,granularityDuration);
             async.parallel(tss.commands.map(
                 function(cmd) {
                     return tss.createHandler(cmd, 720, granularityLabel);
