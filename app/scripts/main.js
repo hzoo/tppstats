@@ -91,12 +91,15 @@ var demo = command('democracy'),
 anar = command('anarchy');
 
 var granularities = {
+    1e3:'1second',
+    5e3:'5seconds',
     1e4:'10seconds',
     3e4:'30seconds',
     6e4:'1minute',
-    6e5:'10minutes',
-    18e5:'30minutes',
-    36e5:'1hour'
+    3e5:'5minutes'
+    // 6e5:'10minutes',
+    // 18e5:'30minutes',
+    // 36e5:'1hour'
 };
 
 var sel = document.querySelector('select');
