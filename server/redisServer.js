@@ -24,7 +24,7 @@ var TimeSeries = require('redis-timeseries'),
 ts = new TimeSeries(redis, 'stats');
 ts.granularities = {
     '1second'  : { ttl: ts.minutes(12), duration: 1 },
-    '5seconds'  : { ttl: ts.hours(1)  , duration: 5 ) },
+    '5seconds'  : { ttl: ts.hours(1)  , duration: 5  },
     '10seconds'  : { ttl: ts.hours(2)  , duration: 10 },
     '30seconds'  : { ttl: ts.hours(6)  , duration: 30 },
     '1minute'  : { ttl: ts.hours(42)  , duration: ts.minutes(1) },
