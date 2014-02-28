@@ -6,8 +6,8 @@ if (location.host.split(':')[0] === 'localhost') {
     var socket = io.connect(location.host);
 }
 
-var realTimeData = {'a':[],'b':[],'u':[],'l':[],'r':[],'d':[],'s':[],'e':[],'n':[],'m':[]},
-commands = ['a','b','u','l','r','d','s','e','n','m'],
+var realTimeData = {'a':[],'b':[],'u':[],'l':[],'r':[],'d':[],'s':[],'e':[],'n':[],'m':[],'w':[]},
+commands = ['a','b','u','l','r','d','s','e','n','m','w'],
 graphSize = 720,
 queueLength = graphSize,
 keymap = {
@@ -20,7 +20,8 @@ keymap = {
     'democracy':'m',
     'anarchy':'n',
     'start':'s',
-    'select':'e'
+    'select':'e',
+    'wait':'w'
 };
 
 
@@ -88,7 +89,8 @@ function command(name) {
 }
 
 var demo = command('democracy'),
-anar = command('anarchy');
+anar = command('anarchy'),
+wait = command('wait');
 
 var granularities = {
     1e3:'1second',
@@ -162,23 +164,23 @@ function startGraph() {
     down = command('down'),
     left = command('left'),
     right = command('right'),
-    dpad = up.add(down).add(left).add(right),
+    // dpad = up.add(down).add(left).add(right),
     vertical = up.subtract(down),
     horizontal = right.subtract(left);
 
-    d3.select('#demo3').call(function (div) {
-        //horizon chart
-        div.selectAll('.horizon')
-                .data([dpad])
-            .enter().append('div')
-                .attr('class', 'horizon')
-                .call(context.horizon()
-                    .height(60)
-                    // .extent([0,100].map(function(d) {return d*step/1000/8;}))
-                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-                    .title('dpad')
-                );
-    });
+    // d3.select('#demo3').call(function (div) {
+    //     //horizon chart
+    //     div.selectAll('.horizon')
+    //             .data([dpad])
+    //         .enter().append('div')
+    //             .attr('class', 'horizon')
+    //             .call(context.horizon()
+    //                 .height(60)
+    //                 // .extent([0,100].map(function(d) {return d*step/1000/8;}))
+    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+    //                 .title('dpad')
+    //             );
+    // });
     d3.select('#demo4').call(function (div) {
         //horizon chart
         div.selectAll('.horizon')
@@ -208,19 +210,18 @@ function startGraph() {
     //                 .title('vertical | ')
     //             );
     // });
-    // d3.select('#demo5').call(function (div) {
-    //     //horizon chart
-    //     div.selectAll('.comparison')
-    //             .data([[left,right]])
-    //         .enter().append('div')
-    //             .attr('class', 'comparison')
-    //             .call(context.comparison()
-    //                 .height(60)
-    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
-    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-    //                 .title('horizontal | ')
-    //             );
-    // });
+    d3.select('#demo5').call(function (div) {
+        //horizon chart
+        div.selectAll('.horizon')
+                .data([wait])
+            .enter().append('div')
+                .attr('class', 'horizon')
+                .call(context.horizon()
+                    .height(60)
+                    // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
+                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+                );
+    });
 }
 
 socket.on('realtime', function(data) {

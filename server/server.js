@@ -7,12 +7,13 @@ var async = require('async'),
     server = http.createServer(app),
     common = require('./common.js');
 
-
 //socket.io
 common.io = require('socket.io').listen(server).set('match origin protocol', true);
 
 var tss = require('./timeSeriesServer.js'),
 ts = require('./redisServer.js').ts;
+
+var shortendCommands = ['a','b','u','l','r','d','s','e','n','m','w'];
 
 //serve webapp
 app.use(express.compress());
@@ -54,14 +55,14 @@ common.io.sockets.on('connection', function(socket) {
         if (ts.granularities.hasOwnProperty(granularityLabel)) {
             var granularityDuration = ts.granularities[granularityLabel].duration;
             // console.log(granularityLabel,granularityDuration);
-            async.parallel(tss.commands.map(
+            async.parallel(shortendCommands.map(
                 function(cmd) {
                     return tss.createHandler(cmd, 720, granularityLabel);
                 }), function(err, data) {
                         socket.emit('history',data);
                     });
             setInterval(function() {
-                async.parallel(tss.commands.map(
+                async.parallel(shortendCommands.map(
                     function(cmd) {
                         return tss.createHandler(cmd, 1, granularityLabel);
                     }), function(err, data) {

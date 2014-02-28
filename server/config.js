@@ -1,6 +1,6 @@
 //list of commands to filter for
 var commands = [
-    'left', 'right', 'up', 'down', 'start', 'select', 'a', 'b', 'democracy', 'anarchy'
+    'left', 'right', 'up', 'down', 'start', 'select', 'a', 'b', 'democracy', 'anarchy','wait'
 ];
 
 var ircConfig = {

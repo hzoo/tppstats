@@ -1,6 +1,5 @@
 //send historical/realtime data to client
 ts = require('./redisServer.js').ts;
-var commands = ['a','b','u','l','r','d','s','e','n','m'];
 
 function createHandler(command, count, granularityLabel) {
     return function(callback) {
@@ -28,6 +27,5 @@ function createHandler(command, count, granularityLabel) {
 }
 
 module.exports = {
-    commands: commands,
     createHandler: createHandler
 };
