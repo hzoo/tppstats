@@ -11,36 +11,40 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" href="styles/d41d8cd9.vendor.css">
-        <link rel="stylesheet" href="styles/9f478638.main.css">
+        <link rel="stylesheet" href="styles/8d85d9db.main.css">
     </head>
     <body>
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div class="container">
-            <h1><a href="http://www.twitch.tv/twitchplayspokemon">TPP</a> Stats</h1>
-            <select onchange="changeScale(this)">
-              <option value="1e4">10 sec</option>
-              <option value="3e4">30 sec</option>
-              <option value="6e4">1 min</option>
-              <option value="6e5">10 min</option>
-              <option value="18e5">30 min</option>
-              <option value="36e5">1 hr</option>
-            </select>
-            <div style="margin-left: 235px">
-                <h5>Need <a href="http://square.github.io/cubism/">Help</a> with the graphs? |</h5>
-                <h5><a href="http://www.reddit.com/r/twitchplayspokemon/comments/1ywmz6/live_tpp_button_stats/">Feedback</a></h5>
+            <div class="toolbar">
+                <h1><a href="http://www.twitch.tv/twitchplayspokemon">TPP</a> Stats</h1>
+                <select onchange="changeScale(this)">
+                  <option value="1e3">1 sec</option>
+                  <option value="5e3">5 sec</option>
+                  <option value="1e4">10 sec</option>
+                  <option value="3e4">30 sec</option>
+                  <option value="6e4">1 min</option>
+                  <option value="3e5">5 min</option>
+                  <!-- <option value="6e5">10 min</option> -->
+                  <!-- <option value="18e5">30 min</option> -->
+                  <!-- <option value="36e5">1 hr</option> -->
+                </select>
+                <div style="margin-left: 235px">
+                    <h5>Need <a href="http://square.github.io/cubism/">Help</a> with the graphs? |</h5>
+                    <h5><a href="http://www.reddit.com/r/twitchplayspokemon/comments/1ywmz6/live_tpp_button_stats/">Feedback</a></h5>
+                </div>
             </div>
-        </div>
-        <div id="demo1"></div>
-        <div id="demo2"></div>
-        <div id="demo3"></div>
-        <div id="demo4"></div>
-        <div id="demo5"></div>
-        <div class="footer">
-            <h5>Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP</h5>
-            <h5 style="margin-left: 130px">Also <a href="http://twitchplays.herokuapp.com">TwitchPlays</a> for more real-time button inputs</h5>
-        </div>
+            <div class="grid">
+                <div id="demo1"></div>
+                <div id="demo2"></div>
+                <div id="demo3"></div>
+                <div id="demo4"></div>
+            </div>
+            <div class="footer">
+                <h5>Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP</h5>
+                <h5 style="margin-left: 130px">Also <a href="http://twitchplays.herokuapp.com">TwitchPlays</a> for more real-time button inputs</h5>
+            </div>
         <script src="scripts/c993dffb.vendor.js"></script>
 
         <!--<script>document.write('<script src="http://'
@@ -50,6 +54,6 @@
 
         <script src="/socket.io/socket.io.js"></script>
 
-        <script src="scripts/d4d5fac8.main.js"></script>
+        <script src="scripts/f83970b4.main.js"></script>
 </body>
 </html>
