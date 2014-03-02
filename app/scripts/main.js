@@ -53,7 +53,7 @@ function getParameterByName(name) {
 }
 
 // 1e4 or 10 seconds, 6e4 or 1 minute, 3e5 or 5 minutes, 36e5 or 1 hour
-var commandList = ['start', 'a', 'b', 'up', 'down', 'left', 'right'],//, 'select'],
+var commandList = ['a', 'b', 'up', 'down', 'left', 'right'],//, 'select','start'],
 step = Number(getParameterByName('step')) || 1e4,
 context = cubism.context()
     .serverDelay(100)
@@ -126,6 +126,16 @@ function changeScale(sel){
 
 function startGraph() {
 
+    var up = command('up'),
+    down = command('down'),
+    left = command('left'),
+    right = command('right'),
+    start = command('start'),
+    dpad = up.add(down).add(left).add(right),
+    a = command('a'),
+    b = command('b'),
+    ab = a.add(b);
+
     d3.select('#demo1').call(function (div) {
         //axis
         div.append('div').attr('class', 'axis').call(context.axis().orient('top'));
@@ -133,7 +143,7 @@ function startGraph() {
         //horizon chart
         div.selectAll('.horizon')
                 // .data([demo.subtract(anar)])
-                .data([anar])
+                .data([anar,dpad,ab,start])
             .enter().append('div')
                 .attr('class', 'horizon')
                 .call(context.horizon()
@@ -161,13 +171,8 @@ function startGraph() {
                 );
     });
 
-    var up = command('up'),
-    down = command('down'),
-    left = command('left'),
-    right = command('right'),
-    // dpad = up.add(down).add(left).add(right),
-    vertical = up.subtract(down),
-    horizontal = right.subtract(left);
+    // vertical = up.subtract(down),
+    // horizontal = right.subtract(left);
 
     // d3.select('#demo3').call(function (div) {
     //     //horizon chart
@@ -182,22 +187,38 @@ function startGraph() {
     //                 .title('dpad')
     //             );
     // });
-    d3.select('#demo4').call(function (div) {
-        //horizon chart
-        div.selectAll('.horizon')
-                .data([vertical,horizontal])
-            .enter().append('div')
-                .attr('class', 'horizon')
-                .call(context.horizon()
-                    .height(60)
-                    // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
-                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-                    .title(function(d,i) {
-                        if (i === 0) { return 'vertical'; }
-                        else if (i === 1) { return 'horizontal'; }
-                    })
-                );
-    });
+    // d3.select('#demo3').call(function (div) {
+    //     //horizon chart
+    //     div.selectAll('.horizon')
+    //             .data([dpad])
+    //         .enter().append('div')
+    //             .attr('class', 'horizon')
+    //             .call(context.horizon()
+    //                 .height(60)
+    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
+    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+    //                 // .title(function(d,i) {
+    //                 //     if (i === 0) { return 'vertical'; }
+    //                 //     else if (i === 1) { return 'horizontal'; }
+    //                 // })
+    //             );
+    // });
+    // d3.select('#demo4').call(function (div) {
+    //     //horizon chart
+    //     div.selectAll('.horizon')
+    //             .data([ab])
+    //         .enter().append('div')
+    //             .attr('class', 'horizon')
+    //             .call(context.horizon()
+    //                 .height(60)
+    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
+    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+    //                 // .title(function(d,i) {
+    //                 //     if (i === 0) { return 'vertical'; }
+    //                 //     else if (i === 1) { return 'horizontal'; }
+    //                 // })
+    //             );
+    // });
     // d3.select('#demo4').call(function (div) {
     //     //horizon chart
     //     div.selectAll('.comparison')
