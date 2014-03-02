@@ -88,9 +88,9 @@ function command(name) {
     }, name);
 }
 
-var demo = command('democracy'),
-anar = command('anarchy'),
-wait = command('wait');
+// var demo = command('democracy');
+var anar = command('anarchy');
+// wait = command('wait');
 
 var granularities = {
     1e3:'1second',
@@ -132,7 +132,8 @@ function startGraph() {
 
         //horizon chart
         div.selectAll('.horizon')
-                .data([demo.subtract(anar)])
+                // .data([demo.subtract(anar)])
+                .data([anar])
             .enter().append('div')
                 .attr('class', 'horizon')
                 .call(context.horizon()
@@ -210,18 +211,18 @@ function startGraph() {
     //                 .title('vertical | ')
     //             );
     // });
-    d3.select('#demo5').call(function (div) {
-        //horizon chart
-        div.selectAll('.horizon')
-                .data([wait])
-            .enter().append('div')
-                .attr('class', 'horizon')
-                .call(context.horizon()
-                    .height(60)
-                    // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
-                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-                );
-    });
+    // d3.select('#demo5').call(function (div) {
+    //     //horizon chart
+    //     div.selectAll('.horizon')
+    //             .data([wait])
+    //         .enter().append('div')
+    //             .attr('class', 'horizon')
+    //             .call(context.horizon()
+    //                 .height(60)
+    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
+    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+    //             );
+    // });
 }
 
 socket.on('realtime', function(data) {
