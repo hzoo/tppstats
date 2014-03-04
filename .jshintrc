@@ -19,5 +19,5 @@
     "trailing": true,
     "smarttabs": true,
     "jquery": true,
-    "globals": { "io": false, "d3": false, "cubism": false }
+    "globals": { "io": false, "d3": false, "cubism": false, "colorbrewer": false }
 }

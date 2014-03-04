@@ -53,7 +53,7 @@ function getParameterByName(name) {
 }
 
 // 1e4 or 10 seconds, 6e4 or 1 minute, 3e5 or 5 minutes, 36e5 or 1 hour
-var commandList = ['a', 'b', 'up', 'down', 'left', 'right'],//, 'select','start'],
+var commandList = ['up', 'down', 'left', 'right','a', 'b','start'],//, 'select','start'],
 step = Number(getParameterByName('step')) || 1e4,
 context = cubism.context()
     .serverDelay(100)
@@ -88,10 +88,6 @@ function command(name) {
     }, name);
 }
 
-// var demo = command('democracy');
-var anar = command('anarchy');
-// wait = command('wait');
-
 var granularities = {
     1e3:'1second',
     5e3:'5seconds',
@@ -125,16 +121,21 @@ function changeScale(sel){
 }
 
 function startGraph() {
+    // var up = command('up'),
+    // down = command('down'),
+    // left = command('left'),
+    // right = command('right'),
+    // start = command('start'),
+    // dpad = up.add(down).add(left).add(right),
+    // a = command('a'),
+    // b = command('b'),
+    // ab = a.add(b);
+    // vertical = up.subtract(down),
+    // horizontal = right.subtract(left);
+    // demo = command('democracy'),
+    // wait = command('wait'),
 
-    var up = command('up'),
-    down = command('down'),
-    left = command('left'),
-    right = command('right'),
-    start = command('start'),
-    dpad = up.add(down).add(left).add(right),
-    a = command('a'),
-    b = command('b'),
-    ab = a.add(b);
+    var anar = command('anarchy');
 
     d3.select('#demo1').call(function (div) {
         //axis
@@ -142,14 +143,13 @@ function startGraph() {
 
         //horizon chart
         div.selectAll('.horizon')
-                // .data([demo.subtract(anar)])
-                .data([anar,dpad,ab,start])
+                .data([anar])
             .enter().append('div')
                 .attr('class', 'horizon')
                 .call(context.horizon()
                     .height(60)
                     // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
-                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+                    .colors([0].concat(colorbrewer.Greys[3]))
                 );
 
         //line
@@ -167,83 +167,20 @@ function startGraph() {
                 .call(context.horizon()
                     .height(60)
                     // .extent([0,60].map(function(d) {return d*step/1000/8;}))
-                    .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
+                    // .extent([0,120])
+                    .colors(function(d,i) {
+                        if (i === 0) { return [0].concat(colorbrewer.BuGn[3]);
+                        } else if (i === 1) { return [0].concat(colorbrewer.Greens[3]);
+                        } else if (i === 2) { return [0].concat(colorbrewer.Blues[3]);
+                        } else if (i === 3) { return [0].concat(colorbrewer.PuRd[3]);
+                        } else if (i === 4) { return [0].concat(colorbrewer.RdPu[3]);
+                        } else if (i === 5) { return [0].concat(colorbrewer.Oranges[3]);
+                        } else if (i === 6) { return [0].concat(colorbrewer.YlOrBr[3]);
+                        }
+                    })
                 );
     });
 
-    // vertical = up.subtract(down),
-    // horizontal = right.subtract(left);
-
-    // d3.select('#demo3').call(function (div) {
-    //     //horizon chart
-    //     div.selectAll('.horizon')
-    //             .data([dpad])
-    //         .enter().append('div')
-    //             .attr('class', 'horizon')
-    //             .call(context.horizon()
-    //                 .height(60)
-    //                 // .extent([0,100].map(function(d) {return d*step/1000/8;}))
-    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-    //                 .title('dpad')
-    //             );
-    // });
-    // d3.select('#demo3').call(function (div) {
-    //     //horizon chart
-    //     div.selectAll('.horizon')
-    //             .data([dpad])
-    //         .enter().append('div')
-    //             .attr('class', 'horizon')
-    //             .call(context.horizon()
-    //                 .height(60)
-    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
-    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-    //                 // .title(function(d,i) {
-    //                 //     if (i === 0) { return 'vertical'; }
-    //                 //     else if (i === 1) { return 'horizontal'; }
-    //                 // })
-    //             );
-    // });
-    // d3.select('#demo4').call(function (div) {
-    //     //horizon chart
-    //     div.selectAll('.horizon')
-    //             .data([ab])
-    //         .enter().append('div')
-    //             .attr('class', 'horizon')
-    //             .call(context.horizon()
-    //                 .height(60)
-    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
-    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-    //                 // .title(function(d,i) {
-    //                 //     if (i === 0) { return 'vertical'; }
-    //                 //     else if (i === 1) { return 'horizontal'; }
-    //                 // })
-    //             );
-    // });
-    // d3.select('#demo4').call(function (div) {
-    //     //horizon chart
-    //     div.selectAll('.comparison')
-    //             .data([[up,down]])
-    //         .enter().append('div')
-    //             .attr('class', 'comparison')
-    //             .call(context.comparison()
-    //                 .height(60)
-    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
-    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-    //                 .title('vertical | ')
-    //             );
-    // });
-    // d3.select('#demo5').call(function (div) {
-    //     //horizon chart
-    //     div.selectAll('.horizon')
-    //             .data([wait])
-    //         .enter().append('div')
-    //             .attr('class', 'horizon')
-    //             .call(context.horizon()
-    //                 .height(60)
-    //                 // .extent([-30,30].map(function(d) {return d*step/1000/8;}))
-    //                 .colors(['#6baed6','#bdd7e7','#bae4b3','#74c476'])
-    //             );
-    // });
 }
 
 socket.on('realtime', function(data) {

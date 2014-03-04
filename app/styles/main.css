@@ -14,8 +14,11 @@ body {
     width: 720px;
     position: relative;
     background: none repeat scroll 0% 0% #F5F5F5;
+    /*background: none repeat scroll 0% 0% #737373;*/
     color: #222;
-}
+    /*color: #ffffff;*/
+    /*fill: #ffffff;*/
+}`
 a {
     color: #6441A5;
 }
