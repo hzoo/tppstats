@@ -149,7 +149,8 @@ function startGraph() {
                 .call(context.horizon()
                     .height(60)
                     // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
-                    .colors([0].concat(colorbrewer.Greys[3]))
+                    // .colors([0].concat(colorbrewer.Greys[3]))
+                    .colors([0].concat(colorbrewer.Purples[3]))
                 );
 
         //line
@@ -168,15 +169,17 @@ function startGraph() {
                     .height(60)
                     // .extent([0,60].map(function(d) {return d*step/1000/8;}))
                     // .extent([0,120])
-                    .colors(function(d,i) {
-                        if (i === 0) { return [0].concat(colorbrewer.BuGn[3]);
-                        } else if (i === 1) { return [0].concat(colorbrewer.Greens[3]);
-                        } else if (i === 2) { return [0].concat(colorbrewer.Blues[3]);
-                        } else if (i === 3) { return [0].concat(colorbrewer.PuRd[3]);
-                        } else if (i === 4) { return [0].concat(colorbrewer.RdPu[3]);
-                        } else if (i === 5) { return [0].concat(colorbrewer.Oranges[3]);
-                        } else if (i === 6) { return [0].concat(colorbrewer.YlOrBr[3]);
-                        }
+                    .colors(function() {
+                    // .colors(function(d,i) {
+                        // if (i === 0) { return [0].concat(colorbrewer.BuGn[3]);
+                        // } else if (i === 1) { return [0].concat(colorbrewer.Greens[3]);
+                        // } else if (i === 2) { return [0].concat(colorbrewer.Blues[3]);
+                        // } else if (i === 3) { return [0].concat(colorbrewer.PuRd[3]);
+                        // } else if (i === 4) { return [0].concat(colorbrewer.RdPu[3]);
+                        // } else if (i === 5) { return [0].concat(colorbrewer.Oranges[3]);
+                        // } else if (i === 6) { return [0].concat(colorbrewer.YlOrBr[3]);
+                        // }
+                        return [0].concat(colorbrewer.Purples[3]);
                     })
                 );
     });
