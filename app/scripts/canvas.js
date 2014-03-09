@@ -1,3 +1,5 @@
+/* global socket */
+
 //use instead of setInterval/setTimeout
 //http://creativejs.com/resources/requestanimationframe/
 (function () {
@@ -18,17 +20,6 @@ var counts = resetCounts();
 //get canvas
 var canvas = document.querySelector('canvas');
 var ctx = canvas.getContext('2d');
-
-var showGraph = true;
-function toggleGraph() {
-    showGraph = showGraph ? false : true;
-    if (showGraph) {
-        canvas.style.display = 'block';
-        animate();
-    } else {
-        canvas.style.display = 'none';
-    }
-}
 
 //queue to keep count of the last queueLength commands
 var queue = [],
@@ -75,6 +66,7 @@ function pad(number, size) {
     return number;
 }
 
+var showGraph = true;
 function animate() {
     //clear canvas state
     //canvas.width hack is slow
@@ -223,5 +215,15 @@ function animate() {
         window.requestAnimationFrame(animate);
     }
 }
+
+document.getElementById('toggleButton').onclick = function() {
+    showGraph = showGraph ? false : true;
+    if (showGraph) {
+        canvas.style.display = 'block';
+        animate();
+    } else {
+        canvas.style.display = 'none';
+    }
+};
 
 animate();
