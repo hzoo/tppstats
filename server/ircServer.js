@@ -16,18 +16,17 @@ var client = new irc.Client(config.server, config.nick, {
     floodProtectionDelay: config.floodProtectionDelay,
     autoConnect: false,
     autoRejoin: true
-});
-
-// var commandsBufferLength = 100,
-// commandsBuffer = [],
+}),
+commandsBufferLength = 100,
+commandsBuffer = [];
 // politicsBufferLength = 1000,
 // politicsBuffer = [];
 
 function addToBuffers(from, command) {
-    // if (commandsBuffer.length >= commandsBufferLength) {
-    //     commandsBuffer.shift();
-    // }
-    // commandsBuffer.push(command);
+    if (commandsBuffer.length >= commandsBufferLength) {
+        commandsBuffer.shift();
+    }
+    commandsBuffer.push(command);
     // if (command === 'm' || command === 'n') {
     //     if (politicsBuffer.length >= politicsBufferLength) {
     //         politicsBuffer.shift();
@@ -66,7 +65,7 @@ client.addListener('message' + config.channel, function(from, message) {
         addToBuffers(from,command);
 
         //send to clients
-        // common.io.sockets.emit('cmd',command);
+        common.io.sockets.emit('cmd',command);
     }
 });
 
@@ -83,7 +82,7 @@ client.addListener('message' + config.channel, function(from, message) {
 // }, stepInterval);
 
 //when a connection starts, send buffer (last x commands)
-// common.io.sockets.on('connection', function(socket) {
+common.io.sockets.on('connection', function(socket) {
     //redis multi
     // var multi = redisClient.multi();
     // multi.zrevrange('commands',-1*commandsBufferLength,-1);
@@ -120,9 +119,9 @@ client.addListener('message' + config.channel, function(from, message) {
     //     socket.emit('pb', res);
     // });
 
-    //socket.emit('cb', commandsBuffer);
+    socket.emit('cb', commandsBuffer);
     //socket.emit('pb', politicsBuffer);
-// });
+});
 
 client.addListener('error', function(message) {
     console.log('error: ', message);

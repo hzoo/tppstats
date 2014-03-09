@@ -37,12 +37,14 @@
                   <!-- <option value="18e5">30 min</option> -->
                   <!-- <option value="36e5">1 hr</option> -->
                 </select>
+                <button onclick="toggleGraph()">Toggle Graph</button>
                 <div style="float: right">
                     <h5>Need <a href="http://square.github.io/cubism/">Help</a> with the graphs?</h5>
                     <!-- <h5><a href="http://www.reddit.com/r/twitchplayspokemon/comments/1ywmz6/live_tpp_button_stats/">Feedback</a></h5> -->
                 </div>
             </div>
             <div class="grid">
+                <canvas width=390 height=220></canvas>
                 <div id="demo1"></div>
                 <div id="demo2"></div>
                 <div id="demo3"></div>
@@ -70,6 +72,7 @@
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
+        <script src="scripts/canvas.js"></script>
         <!-- endbuild -->
 </body>
 </html>
