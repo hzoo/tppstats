@@ -226,3 +226,7 @@ function addMessage(message) {
 socket.on('streamer', function(message) {
     addMessage(message);
 });
+
+socket.on('sb', function(messages) {
+    streamerTexts = messages;
+});

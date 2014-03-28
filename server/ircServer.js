@@ -19,6 +19,8 @@ var client = new irc.Client(config.server, config.nick, {
 }),
 commandsBufferLength = 100,
 commandsBuffer = [];
+streamerBufferLength = 50;
+streamerBuffer = [];
 // politicsBufferLength = 1000,
 // politicsBuffer = [];
 
@@ -67,6 +69,10 @@ client.addListener('message' + config.channel, function(from, message) {
         //send to clients
         common.io.sockets.emit('cmd',command);
     } else if (from === 'twitchplayspokemon') {
+        if (streamerBuffer.length >= streamerBufferLength) {
+            streamerBuffer.shift();
+        }
+        streamerBuffer.push(command);
         common.io.sockets.emit('streamer',message);
     }
 });
@@ -122,6 +128,7 @@ common.io.sockets.on('connection', function(socket) {
     // });
 
     socket.emit('cb', commandsBuffer);
+    socket.emit('sb', streamerBuffer);
     //socket.emit('pb', politicsBuffer);
 });
 
