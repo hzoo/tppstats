@@ -66,6 +66,8 @@ client.addListener('message' + config.channel, function(from, message) {
 
         //send to clients
         common.io.sockets.emit('cmd',command);
+    } else if (from === 'twitchplayspokemon') {
+        common.io.sockets.emit('streamer',message);
     }
 });
 

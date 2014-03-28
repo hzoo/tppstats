@@ -32,6 +32,19 @@ a {
     width: 70px;
 }
 .grid canvas {
-    margin: 0 auto;
-    display: block;
+    display: inline-block;
+}
+.streamer-text {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    overflow-y: auto;
+    height: 220px;
+    width: 320px;
+    word-wrap:break-word;
+    overflow-x: hidden;
+    list-style-type: none;
+}
+.streamer-text li {
+    margin-bottom: 5px;
 }

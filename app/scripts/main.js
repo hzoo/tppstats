@@ -203,3 +203,26 @@ socket.on('history', function(data) {
     }
     startGraph();
 });
+
+var streamer = d3.select('.streamer-text');
+var streamerTexts = [];
+var chat = document.querySelector('.streamer-text');
+function addMessage(message) {
+    if (streamerTexts.length >= 50) {
+        streamerTexts.shift();
+    }
+    streamerTexts.push(message);
+
+    streamer.selectAll('li')
+        .data(streamerTexts)
+    .enter().append('li')
+    .text(function(d) { return d; });
+
+    if (streamerTexts.length >= 10) {
+        chat.scrollTop = chat.scrollHeight;
+    }
+}
+
+socket.on('streamer', function(message) {
+    addMessage(message);
+});

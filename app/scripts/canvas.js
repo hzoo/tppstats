@@ -156,7 +156,7 @@ function animate() {
 
     ctx.beginPath();
     ctx.fillStyle= '#b2b2b2';
-    ctx.fillText('AVG direction of AJ',50.5,140.5);
+    ctx.fillText('AVG direction',50.5,140.5);
     ctx.fill();
 
     ctx.beginPath();
