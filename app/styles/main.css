@@ -32,7 +32,8 @@ a {
     width: 70px;
 }
 .grid canvas {
-    display: inline-block;
+    display: block;
+    margin: 0 auto;
 }
 .streamer-text {
     margin: 0;
