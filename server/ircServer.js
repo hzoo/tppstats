@@ -2,8 +2,8 @@
 var irc = require('irc'),
 config = require('./config.js'),
 common = require('./common.js'),
-ts = require('./redisServer.js').ts,
-redisClient = require('./redisServer.js').client;
+ts = require('./redisServer.js').ts;
+// redisClient = require('./redisServer.js').client;
 
 var client = new irc.Client(config.server, config.nick, {
     channels: config.channelList,
@@ -18,8 +18,8 @@ var client = new irc.Client(config.server, config.nick, {
     autoRejoin: true
 }),
 commandsBufferLength = 100,
-commandsBuffer = [];
-streamerBufferLength = 50;
+commandsBuffer = [],
+streamerBufferLength = 50,
 streamerBuffer = [];
 // politicsBufferLength = 1000,
 // politicsBuffer = [];
@@ -60,6 +60,9 @@ function shorten(message) {
 
 client.addListener('message' + config.channel, function(from, message) {
     var trimMessage = message.trim();
+    if (trimMessage.substring(0,6) === '!move ' && trimMessage.substring(6).match(config.regexCommands)) {
+        trimMessage = trimMessage.substring(6);
+    }
     if (trimMessage.match(config.regexCommands)) {
         //shorten data to send
         var command = shorten(message);
@@ -72,7 +75,7 @@ client.addListener('message' + config.channel, function(from, message) {
         if (streamerBuffer.length >= streamerBufferLength) {
             streamerBuffer.shift();
         }
-        streamerBuffer.push(command);
+        streamerBuffer.push(message);
         common.io.sockets.emit('streamer',message);
     }
 });

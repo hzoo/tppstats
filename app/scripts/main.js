@@ -189,7 +189,7 @@ function startGraph() {
 socket.on('realtime', function(data) {
     // console.log('realtime: ', data);
     for (var i = 0; i < data.length; i++) {
-        if (realTimeData[commands[i]].length >= queueLength) {
+        if (realTimeData[commands[i]] && realTimeData[commands[i]].length >= queueLength) {
             realTimeData[commands[i]].shift();
         }
         realTimeData[commands[i]].push(data[i][0]);
