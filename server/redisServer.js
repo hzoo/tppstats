@@ -11,13 +11,13 @@ else if (process.env.REDISTOGO_URL) {
     redis.auth(rtg.auth.split(':')[1]);
 } else {
     //console.log('local redis');
-    //var redis = require('redis').createClient();
+    var redis = require('redis').createClient();
 
     //test server redis
-    var url = 'REDIS_URL_HERE';
-    var redisURL = require('url').parse(url);
-    var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
-    redis.auth(redisURL.auth.split(':')[1]);
+    // var url = 'REDIS_URL_HERE';
+    // var redisURL = require('url').parse(url);
+    // var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+    // redis.auth(redisURL.auth.split(':')[1]);
 }
 
 var TimeSeries = require('redis-timeseries'),

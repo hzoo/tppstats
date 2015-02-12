@@ -22,6 +22,7 @@ app.configure('development', function(){
     //reduce console logs
     common.io.set('log level', 1);
     common.io.set('transports', ['websocket']);
+    require('./ircServer.js');
 });
 app.configure('production', function(){
     require('./ircServer.js');

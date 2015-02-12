@@ -4,10 +4,10 @@
   "version": "0.0.1",
   "dependencies": {
     "express": "~3.4.8",
-    "irc": "~0.3.6",
+    "irc": "~0.3.9",
     "printf": "~0.1.2",
     "socket.io": "~0.9.16",
-    "redis": "~0.10.1",
+    "redis": "~0.12.1",
     "redis-timeseries": "^0.4.0",
     "async": "^0.2.10"
   },

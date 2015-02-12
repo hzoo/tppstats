@@ -6,7 +6,8 @@ var commands = [
 var ircConfig = {
     //IRC
     //ex: irc.twitch.tv or 199.9.252.26
-    server: '199.9.252.26',
+    // server: '199.9.252.26',
+    server: 'irc.twitch.tv',
     //ex: your twitch username
     nick: 'twitchtypes',
     //ex: your twitch username
@@ -22,7 +23,7 @@ var ircConfig = {
     //default
     port: 6667,
     //needed for password
-    sasl: true,
+    sasl: false,
     //if you want to get all messages in real-time keep false
     floodProtection: false,
     //only needed if true - in milliseconds
