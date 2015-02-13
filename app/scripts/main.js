@@ -137,27 +137,27 @@ function startGraph() {
 
     // var anar = command('anarchy');
 
-    // d3.select('#demo1').call(function (div) {
-    //     //axis
-    //     div.append('div').attr('class', 'axis').call(context.axis().orient('top'));
+    d3.select('#demo1').call(function(div) {
+        //axis
+        div.append('div').attr('class', 'axis').call(context.axis().orient('top'));
 
-    //     //horizon chart
-    //     div.selectAll('.horizon')
-    //             .data([anar])
-    //         .enter().append('div')
-    //             .attr('class', 'horizon')
-    //             .call(context.horizon()
-    //                 .height(60)
-    //                 // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
-    //                 // .colors([0].concat(colorbrewer.Greys[3]))
-    //                 .colors([0].concat(colorbrewer.Purples[3]))
-    //             );
+        //horizon chart
+        // div.selectAll('.horizon')
+        //         .data([anar])
+        //     .enter().append('div')
+        //         .attr('class', 'horizon')
+        //         .call(context.horizon()
+        //             .height(60)
+        //             // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
+        //             // .colors([0].concat(colorbrewer.Greys[3]))
+        //             .colors([0].concat(colorbrewer.Purples[3]))
+        //         );
 
-    //     //line
-    //     div.append('div')
-    //          .attr('class', 'rule')
-    //          .call(context.rule());
-    // });
+        //line
+        div.append('div')
+             .attr('class', 'rule')
+             .call(context.rule());
+    });
 
     d3.select('#demo2').call(function(div) {
         //horizon chart
