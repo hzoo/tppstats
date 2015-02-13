@@ -272,10 +272,10 @@ if (window.innerWidth > 1460) {
 var showStream = true;
 document.getElementById('toggleStream').onclick = function() {
     showStream = !showStream;
-    if (showStream) {
+    if (showStream === true) {
         twitchPlayer.style.display = 'block';
         twitchPlayer.playVideo();
-    } else {
+    } else if (showStream === false) {
         if (!streamAdded) {
             showStream = !showStream;
             addStream();
