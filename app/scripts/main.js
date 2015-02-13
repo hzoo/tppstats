@@ -100,7 +100,7 @@ var granularities = {
     // 36e5:'1hour'
 };
 
-var sel = document.querySelector('select');
+var sel = document.getElementById('timeIntervalSelect');
 for (var j = 0; j < sel.options.length; j++) {
     var i = sel.options[j];
     if (Number(i.value) === Number(getParameterByName('step'))) {
@@ -202,31 +202,4 @@ socket.on('history', function(data) {
         realTimeData[commands[i]] = data[i];
     }
     startGraph();
-});
-
-var streamer = d3.select('.streamer-text');
-var streamerTexts = [];
-var chat = document.querySelector('.streamer-text');
-function addMessage(message) {
-    if (streamerTexts.length >= 50) {
-        streamerTexts.shift();
-    }
-    streamerTexts.push(message);
-
-    streamer.selectAll('li')
-        .data(streamerTexts)
-    .enter().append('li')
-    .text(function(d) { return d; });
-
-    if (streamerTexts.length >= 10) {
-        chat.scrollTop = chat.scrollHeight;
-    }
-}
-
-socket.on('streamer', function(message) {
-    addMessage(message);
-});
-
-socket.on('sb', function(messages) {
-    streamerTexts = messages;
 });

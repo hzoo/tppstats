@@ -14,10 +14,7 @@ body {
     width: 720px;
     position: relative;
     background: none repeat scroll 0% 0% #F5F5F5;
-    /*background: none repeat scroll 0% 0% #737373;*/
     color: #222;
-    /*color: #ffffff;*/
-    /*fill: #ffffff;*/
 }`
 a {
     color: #6441A5;
@@ -34,18 +31,4 @@ a {
 .grid canvas {
     display: block;
     margin: 0 auto;
-}
-.streamer-text {
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    overflow-y: auto;
-    height: 220px;
-    width: 320px;
-    word-wrap:break-word;
-    overflow-x: hidden;
-    list-style-type: none;
-}
-.streamer-text li {
-    margin-bottom: 5px;
 }
