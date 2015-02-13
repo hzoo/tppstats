@@ -7,14 +7,12 @@ html {
     min-width: 720px;
 }
 body {
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    margin: auto;
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-    width: 720px;
-    position: relative;
     background: none repeat scroll 0% 0% #F5F5F5;
     color: #222;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 0.9em;
+    margin: 0;
+    min-width: 720px;
 }
 a {
     color: #6441A5;
@@ -22,13 +20,41 @@ a {
     a:not(:hover) {
         text-decoration: none;
     }
-.toolbar *,.footer * {
-    display: inline-block;
+.toolbar {
+    margin: auto;
+    width: 720px;
 }
-.toolbar select {
-    width: 70px;
+.container {
+    margin: auto;
+    width: 720px;
+    /* needed to make the context.rule align with mouse */
+    position: relative;
 }
-.grid canvas {
-    display: block;
-    margin: 0 auto;
+.header {
+    background: #dadaeb;
 }
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+    }
+        .toolbar-left {
+            margin-bottom: 10px;
+        }
+        .toolbar-help {
+            align-self: center;
+        }
+.grid {
+    display: flex;
+    flex-direction: column;
+}
+    .grid canvas {
+        margin: 10px auto 0 auto;
+    }
+.footer {
+    display: flex;
+    justify-content: space-between;
+}
+    .footer-text {
+        flex: 0 1 auto;
+        margin-top: 10px;
+    }
