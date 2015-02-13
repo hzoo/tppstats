@@ -5,16 +5,16 @@
   "dependencies": {
     "express": "~3.4.8",
     "irc": "~0.3.9",
-    "printf": "~0.1.2",
+    "printf": "~0.2.0",
     "socket.io": "~0.9.16",
     "redis": "~0.12.1",
     "redis-timeseries": "^0.4.0",
-    "async": "^0.2.10"
+    "async": "^0.9.0"
   },
   "author": "Henry Zhu",
   "main": "server.js",
   "devDependencies": {
-      "matchdep": "~0.1.1",
+      "matchdep": "~0.3.0",
       "connect-livereload": "~0.2.0",
       "grunt": "~0.4.1",
       "grunt-contrib-copy": "~0.4.1",

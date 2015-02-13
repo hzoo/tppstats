@@ -216,7 +216,7 @@ function animate() {
     }
 }
 
-document.getElementById('toggleButton').onclick = function() {
+document.getElementById('toggleGraph').onclick = function() {
     showGraph = showGraph ? false : true;
     if (showGraph) {
         canvas.style.display = 'block';
@@ -225,5 +225,67 @@ document.getElementById('toggleButton').onclick = function() {
         canvas.style.display = 'none';
     }
 };
+
+// stream
+
+var twitchPlayer;
+var twitchNumViewers;
+window.onPlayerEvent = function(data) {
+  data.forEach(function(event) {
+    if (event.event == "playerInit") {
+        twitchPlayer = document.getElementById('twitch_embed_player');
+        twitchPlayer.playVideo();
+    }
+    if (event.event == "viewerCount") {
+        twitchNumViewers = event.data.viewers;
+        console.log(twitchNumViewers);
+    }
+  });
+}
+
+var streamAdded = false;
+function addStream() {
+    streamAdded = true;
+    swfobject.embedSWF(
+        "//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf",
+        "twitch_embed_player",
+        "720",
+        "480",
+        "11",
+        null,
+        {
+            "eventsCallback":"onPlayerEvent",
+            "embed":1,
+            "channel":"twitchplayspokemon",
+            "auto_play":"true"
+        },{
+            "allowScriptAccess":"always",
+            "allowFullScreen":"true"
+        }
+    );
+}
+
+if (window.innerWidth > 1460) {
+    addStream();
+}
+
+var showStream = true;
+document.getElementById('toggleStream').onclick = function() {
+    showStream = !showStream;
+    if (showStream) {
+        twitchPlayer.style.display = 'block';
+        twitchPlayer.playVideo();
+    } else {
+        if (!streamAdded) {
+            showStream = !showStream;
+            addStream();
+        } else {
+            twitchPlayer.pauseVideo();
+            twitchPlayer.style.display = 'none';
+        }
+    }
+};
+
+
 
 animate();

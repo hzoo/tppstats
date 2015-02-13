@@ -39,7 +39,8 @@
                           <!-- <option value="18e5">30 min</option> -->
                           <!-- <option value="36e5">1 hr</option> -->
                         </select>
-                        <button id="toggleButton">Toggle Graph</button>
+                        <button id="toggleGraph">Toggle Graph</button>
+                        <button id="toggleStream">Toggle Stream</button>
                     </div>
                     <div class="toolbar-help">
                         Need <a href="http://square.github.io/cubism/">help</a> with the graphs?
@@ -47,6 +48,7 @@
                 </div>
             </div>
             <div class="container">
+                <div id="twitch_embed_player"></div>
                 <div class="content">
                     <div class="grid">
                         <canvas width="390" height="220"></canvas>
@@ -87,6 +89,7 @@
             + 'script>')</script>-->
 
         <script src="/socket.io/socket.io.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>

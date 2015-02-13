@@ -26,10 +26,19 @@ a {
 }
 .container {
     margin: auto;
-    width: 720px;
-    /* needed to make the context.rule align with mouse */
-    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
+    object {
+        display: flex;
+        margin: auto 0;
+    }
+    .content {
+        width: 720px;
+        /* needed to make the context.rule align with mouse */
+        position: relative;
+    }
 .header {
     background: #dadaeb;
 }
@@ -58,3 +67,13 @@ a {
         flex: 0 1 auto;
         margin-top: 10px;
     }
+
+@media (max-width: 1460px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  object {
+      margin-top: 10px;
+  }
+}
