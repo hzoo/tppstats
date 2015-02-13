@@ -11,55 +11,60 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" href="styles/d41d8cd9.vendor.css">
-        <link rel="stylesheet" href="styles/d1c615f1.main.css">
+        <link rel="stylesheet" href="styles/c4797c20.main.css">
     </head>
     <body>
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-            <div class="toolbar">
-                <h1><a href="http://www.twitch.tv/twitchplayspokemon">TPP</a> Stats</h1>
-                <select style="margin-left: 5px" onchange="changeScale(this)">
-                  <option value="1e3">1 sec</option>
-                  <option value="5e3">5 sec</option>
-                  <option value="1e4">10 sec</option>
-                  <option selected="selected" value="3e4">30 sec</option>
-                  <option value="6e4">1 min</option>
-                  <option value="3e5">5 min</option>
-                  <!-- <option value="6e5">10 min</option> -->
-                  <!-- <option value="18e5">30 min</option> -->
-                  <!-- <option value="36e5">1 hr</option> -->
-                </select>
-                <button id="toggleButton">Toggle Graph</button>
-                <div style="float: right">
-                    <h5>Need <a href="http://square.github.io/cubism/">Help</a> with the graphs?</h5>
-                    <!-- <h5><a href="http://www.reddit.com/r/twitchplayspokemon/comments/1ywmz6/live_tpp_button_stats/">Feedback</a></h5> -->
+            <div class="header">
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <h1><a href="http://www.twitch.tv/twitchplayspokemon">TPP</a> Stats</h1>
+                        <select id="timeIntervalSelect" onchange="changeScale(this)">
+                          <option value="1e3">1 sec</option>
+                          <option value="5e3">5 sec</option>
+                          <option value="1e4">10 sec</option>
+                          <option selected="selected" value="3e4">30 sec</option>
+                          <option value="6e4">1 min</option>
+                          <option value="3e5">5 min</option>
+                          <!-- <option value="6e5">10 min</option> -->
+                          <!-- <option value="18e5">30 min</option> -->
+                          <!-- <option value="36e5">1 hr</option> -->
+                        </select>
+                        <button id="toggleButton">Toggle Graph</button>
+                    </div>
+                    <div class="toolbar-help">
+                        Need <a href="http://square.github.io/cubism/">help</a> with the graphs?
+                    </div>
                 </div>
             </div>
-            <div class="grid">
-                <canvas width="390" height="220"></canvas>
-                <!-- <ul class="streamer-text"></ul> -->
-                <div id="demo1"></div>
-                <div id="demo2"></div>
-                <div id="demo3"></div>
-                <div id="demo4"></div>
-                <div id="demo5"></div>
-            </div>
-            <div class="footer">
-                <h5>Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP</h5>
-                <h5 style="float: right">
-                    Prev Screenshots:
-                    <a href="/images/ddcfc183.1.png">1</a>
-                    <a href="/images/08b29e80.2.png">2</a>
-                    <a href="/images/8b355621.3.png">3</a>
-                    <a href="/images/65f0d334.4.png">4</a>
-                    <a href="/images/2458dc65.5.png">5</a>
-                    <a href="/images/0f9a039f.6.png">6</a>
-                    <a href="/images/0f9a039f.6.png">6</a>
-                    <a href="/images/b648188e.7.png">7</a>
-                    <a href="/images/53c5d0b1.8.png">8</a>
-                    <div></div>
-                </h5>
+            <div class="container">
+                <div class="content">
+                    <div class="grid">
+                        <canvas width="390" height="220"></canvas>
+                        <div id="demo1"></div>
+                        <div id="demo2"></div>
+                    </div>
+                    <div class="footer">
+                        <div class="footer-text">
+                            Check <a href="https://github.com/eltacodeldiablo/TwitchPlaysX">TwitchPlaysX</a> to make your own TPP
+                        </div>
+                        <div class="footer-text">
+                            Prev Screenshots:
+                            <a href="/images/ddcfc183.1.png">1</a>
+                            <a href="/images/08b29e80.2.png">2</a>
+                            <a href="/images/8b355621.3.png">3</a>
+                            <a href="/images/65f0d334.4.png">4</a>
+                            <a href="/images/2458dc65.5.png">5</a>
+                            <a href="/images/0f9a039f.6.png">6</a>
+                            <a href="/images/0f9a039f.6.png">6</a>
+                            <a href="/images/b648188e.7.png">7</a>
+                            <a href="/images/53c5d0b1.8.png">8</a>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         <script src="scripts/3de2cf06.vendor.js"></script>
 
@@ -70,9 +75,10 @@
 
         <script src="/socket.io/socket.io.js"></script>
 
-        <script src="scripts/6b30eb2e.main.js"></script>
+        <script src="scripts/68e8964d.main.js"></script>
 
         <script>
+          // jscs: disable
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -80,6 +86,5 @@
           ga('create', 'UA-48296360-1', 'tppstats.herokuapp.com');
           ga('send', 'pageview');
         </script>
-
-</body>
+    </body>
 </html>
