@@ -1,4 +1,4 @@
 var Common = {
-    io : { }
+    io: { }
 };
 module.exports = Common;

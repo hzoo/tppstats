@@ -2,8 +2,8 @@
 
 //use instead of setInterval/setTimeout
 //http://creativejs.com/resources/requestanimationframe/
-(function () {
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
+(function() {
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
         window.setTimeout(callback, 1000 / 60);
     };
     window.requestAnimationFrame = requestAnimationFrame;
@@ -91,7 +91,7 @@ function animate() {
     right = counts.r,
     start = counts.s,
     anarchy = counts.n,
-    dpad = up+down+left+right;
+    dpad = up + down + left + right;
 
     //settings
     ctx.globalAlpha = 0.25;
@@ -100,10 +100,10 @@ function animate() {
 
     //axes
     var num1 = 100.5;
-    ctx.moveTo(num1,0.5);
-    ctx.lineTo(num1,200.5);
-    ctx.moveTo(0.5,num1);
-    ctx.lineTo(200.5,num1);
+    ctx.moveTo(num1, 0.5);
+    ctx.lineTo(num1, 200.5);
+    ctx.moveTo(0.5, num1);
+    ctx.lineTo(200.5, num1);
     ctx.stroke();
 
     //up,down,left,right
@@ -113,11 +113,11 @@ function animate() {
 
     //make these larger
     var multipler = 3;
-    ctx.moveTo(num1, num1-up*multipler);
-    ctx.lineTo(num1+right*multipler, num1);
-    ctx.lineTo(num1,num1+down*multipler);
-    ctx.lineTo(num1-left*multipler,num1);
-    ctx.lineTo(num1,num1-up*multipler);
+    ctx.moveTo(num1, num1 - up * multipler);
+    ctx.lineTo(num1 + right * multipler, num1);
+    ctx.lineTo(num1, num1 + down * multipler);
+    ctx.lineTo(num1 - left * multipler,num1);
+    ctx.lineTo(num1, num1 - up * multipler);
     ctx.stroke();
     ctx.fill();
 
@@ -128,59 +128,59 @@ function animate() {
     ctx.beginPath();
     var rectX = 250.5;
     var rectY = 60.5;
-    ctx.fillRect(rectX,rectY,a,5);
-    ctx.fillRect(rectX,rectY+15*1,b,5);
-    ctx.fillRect(rectX,rectY+15*2,start,5);
-    ctx.fillRect(rectX,rectY+15*3,anarchy,5);
-    ctx.fillRect(rectX,rectY+15*4,dpad,5);
+    ctx.fillRect(rectX, rectY, a, 5);
+    ctx.fillRect(rectX, rectY + 15 * 1,b, 5);
+    ctx.fillRect(rectX, rectY + 15 * 2,start, 5);
+    ctx.fillRect(rectX, rectY + 15 * 3,anarchy, 5);
+    ctx.fillRect(rectX, rectY + 15 * 4,dpad, 5);
     ctx.font = '10px Arial';
-    ctx.fillText('A',rectX-35,rectY+5);
-    ctx.fillText('B',rectX-35,rectY+5+15*1);
-    ctx.fillText('STAR',rectX-35,rectY+5+15*2);
-    ctx.fillText('ANAR',rectX-35,rectY+5+15*3);
-    ctx.fillText('DPAD',rectX-35,rectY+5+15*4);
+    ctx.fillText('A', rectX - 35,rectY + 5);
+    ctx.fillText('B', rectX - 35,rectY + 5 + 15 * 1);
+    ctx.fillText('STAR', rectX - 35, rectY + 5 + 15 * 2);
+    ctx.fillText('ANAR', rectX - 35, rectY + 5 + 15 * 3);
+    ctx.fillText('DPAD', rectX - 35, rectY + 5 + 15 * 4);
     //%s
-    ctx.fillText(pad(a        ,2),rectX+117,rectY+5);
-    ctx.fillText(pad(b        ,2),rectX+117,rectY+5+15*1);
-    ctx.fillText(pad(start    ,2),rectX+117,rectY+5+15*2);
-    ctx.fillText(pad(anarchy  ,2),rectX+117,rectY+5+15*3);
-    ctx.fillText(pad(dpad     ,2),rectX+117,rectY+5+15*4);
+    ctx.fillText(pad(a, 2),rectX + 117,rectY + 5);
+    ctx.fillText(pad(b, 2),rectX + 117,rectY + 5 + 15 * 1);
+    ctx.fillText(pad(start, 2),rectX + 117,rectY + 5 + 15 * 2);
+    ctx.fillText(pad(anarchy, 2),rectX + 117,rectY + 5 + 15 * 3);
+    ctx.fillText(pad(dpad, 2),rectX + 117,rectY + 5 + 15 * 4);
     //edge
     ctx.fill();
 
     //calculate magnitude/direction
-    var direction = Math.atan2((right-left)/2,(down-up)/2);
+    var direction = Math.atan2((right - left) / 2,(down - up) / 2);
 
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
 
     ctx.beginPath();
     ctx.fillStyle= '#b2b2b2';
-    ctx.fillText('AVG direction',50.5,140.5);
+    ctx.fillText('AVG direction', 50.5, 140.5);
     ctx.fill();
 
     ctx.beginPath();
     ctx.fillStyle= '#555';
     //' + queue.length + '
-    ctx.fillText('last 100 keys',rectX+25,rectY-15);
+    ctx.fillText('last 100 keys', rectX + 25,rectY - 15);
     ctx.fill();
 
     // mag = sqrt(a^2+b^2), a = right-left, b = up - down
-    var mag = Math.sqrt((right-left)*(right-left) + (up-down)*(up-down));
+    var mag = Math.sqrt((right - left) * (right - left) + (up - down) * (up - down));
     if (mag < 4) { mag = 4; }
 
     //arrow line/mag
     var originX = 100.5;
     var originY = 100.5;
     ctx.strokeStyle = '#E82C0C';
-    ctx.moveTo(originX,originY);
-    ctx.lineTo(originX+Math.sin(direction)*mag,originY+Math.cos(direction)*mag);
+    ctx.moveTo(originX, originY);
+    ctx.lineTo(originX + Math.sin(direction) * mag,originY + Math.cos(direction) * mag);
     ctx.stroke();
     ctx.beginPath();
     //longer line
     ctx.strokeStyle = '#bdbdbd';
-    ctx.moveTo(originX,originY);
-    ctx.lineTo(originX+Math.sin(direction)*100,originY+Math.cos(direction)*100);
+    ctx.moveTo(originX, originY);
+    ctx.lineTo(originX + Math.sin(direction) * 100,originY + Math.cos(direction) * 100);
     ctx.stroke();
     ctx.beginPath();
 
@@ -192,16 +192,16 @@ function animate() {
     arrowHeadSize = 27;
     ctx.strokeStyle = '#000';
     ctx.lineTo(
-        originX + Math.sin(direction-arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize)),
-        originY + Math.cos(direction-arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize))
+        originX + Math.sin(direction - arrowAngleOffset) * (Math.max(mag - arrowSizeDiff,arrowHeadSize)),
+        originY + Math.cos(direction - arrowAngleOffset) * (Math.max(mag - arrowSizeDiff,arrowHeadSize))
     );
     ctx.lineTo(
-        originX + Math.sin(direction+arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize)),
-        originY + Math.cos(direction+arrowAngleOffset) * (Math.max(mag-arrowSizeDiff,arrowHeadSize))
+        originX + Math.sin(direction + arrowAngleOffset) * (Math.max(mag - arrowSizeDiff,arrowHeadSize)),
+        originY + Math.cos(direction + arrowAngleOffset) * (Math.max(mag - arrowSizeDiff,arrowHeadSize))
     );
     ctx.lineTo(
-        originX + Math.sin(direction) * Math.max(mag,arrowHeadSize+arrowSizeDiff),
-        originY + Math.cos(direction) * Math.max(mag,arrowHeadSize+arrowSizeDiff)
+        originX + Math.sin(direction) * Math.max(mag, arrowHeadSize + arrowSizeDiff),
+        originY + Math.cos(direction) * Math.max(mag, arrowHeadSize + arrowSizeDiff)
     );
     ctx.fill();
     ctx.stroke();

@@ -50,7 +50,7 @@ function addToBuffers(from, command) {
 }
 
 function shorten(message) {
-    var command, sub = message.slice(0,2).toLowerCase(), firstLetter = sub[0];
+    var command, sub = message.slice(0, 2).toLowerCase(), firstLetter = sub[0];
     if (sub === 'se') { command = 'e'; } //select
     else if (sub === 'an') { command = 'n'; } //anarchy
     else if (sub === 'de') { command = 'm'; } //democracy
@@ -60,7 +60,7 @@ function shorten(message) {
 
 client.addListener('message' + config.channel, function(from, message) {
     var trimMessage = message.trim();
-    if (trimMessage.substring(0,6) === '!move ' && trimMessage.substring(6).match(config.regexCommands)) {
+    if (trimMessage.substring(0, 6) === '!move ' && trimMessage.substring(6).match(config.regexCommands)) {
         trimMessage = trimMessage.substring(6);
     }
     if (trimMessage.match(config.regexCommands)) {
@@ -68,16 +68,16 @@ client.addListener('message' + config.channel, function(from, message) {
         //shorten data to send
         var command = shorten(message);
         //add to buffers
-        addToBuffers(from,command);
+        addToBuffers(from, command);
 
         //send to clients
-        common.io.sockets.emit('cmd',command);
+        common.io.sockets.emit('cmd', command);
     } else if (from === 'twitchplayspokemon') {
         if (streamerBuffer.length >= streamerBufferLength) {
             streamerBuffer.shift();
         }
         streamerBuffer.push(message);
-        common.io.sockets.emit('streamer',message);
+        common.io.sockets.emit('streamer', message);
     }
 });
 

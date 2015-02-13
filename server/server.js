@@ -17,14 +17,14 @@ var shortendCommands = ['a','b','u','l','r','d','s','e','n','m','w'];
 
 //serve webapp
 app.use(express.compress());
-app.configure('development', function(){
+app.configure('development', function() {
     app.use(express.static(path.normalize(__dirname + '/../app')));
     //reduce console logs
     common.io.set('log level', 1);
     common.io.set('transports', ['websocket']);
     require('./ircServer.js');
 });
-app.configure('production', function(){
+app.configure('production', function() {
     require('./ircServer.js');
 
     app.use(express.static(path.normalize(__dirname + '/../dist')));
@@ -51,7 +51,7 @@ console.log('http server listening on port ' + port + ' in ' + app.settings.env 
 common.io.sockets.on('connection', function(socket) {
     // console.log('client connected', socket.id);
 
-    socket.on('graphInfo', function(data){
+    socket.on('graphInfo', function(data) {
         var granularityLabel = data.step;
         if (ts.granularities.hasOwnProperty(granularityLabel)) {
             var granularityDuration = ts.granularities[granularityLabel].duration;
@@ -60,16 +60,16 @@ common.io.sockets.on('connection', function(socket) {
                 function(cmd) {
                     return tss.createHandler(cmd, 720, granularityLabel);
                 }), function(err, data) {
-                        socket.emit('history',data);
+                        socket.emit('history', data);
                     });
             setInterval(function() {
                 async.parallel(shortendCommands.map(
                     function(cmd) {
                         return tss.createHandler(cmd, 1, granularityLabel);
                     }), function(err, data) {
-                            socket.emit('realtime',data);
+                            socket.emit('realtime', data);
                         });
-            }, granularityDuration*1000);
+            }, granularityDuration * 1000);
         }
     });
 });
