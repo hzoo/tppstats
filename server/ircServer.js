@@ -1,9 +1,8 @@
-//connect to irc to store data
 var irc = require('irc'),
 config = require('./config.js'),
-common = require('./common.js'),
 ts = require('./redisServer.js').ts;
-// redisClient = require('./redisServer.js').client;
+
+var common = require('./commonServer');
 
 var client = new irc.Client(config.server, config.nick, {
     channels: config.channelList,
@@ -21,31 +20,13 @@ commandsBufferLength = 100,
 commandsBuffer = [],
 streamerBufferLength = 50,
 streamerBuffer = [];
-// politicsBufferLength = 1000,
-// politicsBuffer = [];
-
 function addToBuffers(from, command) {
     if (commandsBuffer.length >= commandsBufferLength) {
         commandsBuffer.shift();
     }
     commandsBuffer.push(command);
-    // if (command === 'm' || command === 'n') {
-    //     if (politicsBuffer.length >= politicsBufferLength) {
-    //         politicsBuffer.shift();
-    //     }
-    //     politicsBuffer.push(command);
-    // }
-
-    //redis
-    // var date = Date.now();
-    // redisClient.zadd('commands',date,command+ '' +date);
-    // if (command === 'm' || command === 'n') {
-    //     // redisClient.zadd('politics',date,{'t': date, 'c': command});
-    //     redisClient.zadd('politics',date,command+ '' +date);
-    // }
-
     // console.log(from,command);
-    //with redis-timeseries
+    // with redis-timeseries
     ts.recordHit(command).exec();
 }
 
@@ -81,59 +62,10 @@ client.addListener('message' + config.channel, function(from, message) {
     }
 });
 
-// var stepInterval = 10000;
-// setInterval(function() {
-//     //redis
-//     var now = Date.now();
-//     redisClient.zrangebyscore(['commands',now-stepInterval,now], function(err, res) {
-//         if (err) {
-//             console.log('Error: ', err);
-//         }
-//         common.io.sockets.emit('realtime',res);
-//     });
-// }, stepInterval);
-
 //when a connection starts, send buffer (last x commands)
 common.io.sockets.on('connection', function(socket) {
-    //redis multi
-    // var multi = redisClient.multi();
-    // multi.zrevrange('commands',-1*commandsBufferLength,-1);
-    // multi.zrevrange('politics',-1*politicsBufferLength,-1);
-    // // drains multi queue and runs atomically
-    // multi.exec(function (err, replies) {
-    //     socket.emit('i', { 'cb': commandsBuffer, 'pb': politicsBuffer } );
-    // });
-
-    //redis-timeseries
-    // ts.getHits(key, '1minute', 20, function(err, data) {
-    //     // data.length == count
-    //     // data = [ [ts1, count1], [ts2, count2]... ]
-    //     if (err) {
-    //         console.log('Error: ', err);
-    //     } else {
-    //         console.log('Data: ', data);
-    //     }
-    // });
-
-    //redis
-    // redisClient.zrevrange(['commands',-1*commandsBufferLength,-1], function(err, res) {
-    //     // socket.emit('i', { 'cb': commandsBuffer} );
-    //     if (err) {
-    //         console.log('Error: ', err);
-    //     }
-    //     socket.emit('cb', res);
-    // });
-    // redisClient.zrevrange(['politics',-1*politicsBufferLength,-1], function(err, res) {
-    //     // socket.emit('i', { 'pb': politicsBuffer} );
-    //     if (err) {
-    //         console.log('Error: ', err);
-    //     }
-    //     socket.emit('pb', res);
-    // });
-
     socket.emit('cb', commandsBuffer);
     socket.emit('sb', streamerBuffer);
-    //socket.emit('pb', politicsBuffer);
 });
 
 client.addListener('error', function(message) {

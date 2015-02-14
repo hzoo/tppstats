@@ -1,50 +1,25 @@
 //create web server, socket.io
 var async = require('async'),
-    express = require('express'),
-    path = require('path'),
-    app = express(),
-    http = require('http'),
-    server = http.createServer(app),
-    common = require('./common.js');
+    common = require('./commonServer');
 
-//socket.io
-common.io = require('socket.io').listen(server).set('match origin protocol', true);
+var ts = require('./redisServer.js').ts;
+var shortendCommands = ['a','b','u','l','r','d','s','e','n','m'];
 
-var tss = require('./timeSeriesServer.js'),
-ts = require('./redisServer.js').ts;
-
-var shortendCommands = ['a','b','u','l','r','d','s','e','n','m','w'];
-
-//serve webapp
-app.use(express.compress());
-app.configure('development', function() {
-    app.use(express.static(path.normalize(__dirname + '/../app')));
-    //reduce console logs
-    common.io.set('log level', 1);
-    common.io.set('transports', ['websocket']);
-    require('./ircServer.js');
-});
-app.configure('production', function() {
-    require('./ircServer.js');
-
-    app.use(express.static(path.normalize(__dirname + '/../dist')));
-    //reduce console logs
-    common.io.set('log level', 0);
-    common.io.enable('browser client minification');  // send minified client
-    common.io.enable('browser client etag');          // apply etag caching logic based on version number
-    common.io.enable('browser client gzip');          // gzip the file
-    common.io.set('transports', [
-        'websocket',
-        'htmlfile',
-        'xhr-polling',
-        'jsonp-polling'
-    ]);
-});
-
-//port to 8080
-var port = Number(process.env.PORT || 8080);
-server.listen(port);
-console.log('http server listening on port ' + port + ' in ' + app.settings.env + ' mode');
+function createHandler(command, count, granularityLabel) {
+    return function(callback) {
+        ts.getHits(command, granularityLabel, count, function(err, data) {
+            if (err) {
+                console.log('err: ' + err);
+            } else {
+                var temp = data.map(function(data) {
+                    //only return # of hits, not the unix time
+                    return data[1];
+                });
+                callback(null, temp);
+            }
+        });
+    };
+}
 
 //send history on connection (in parallel)
 //redis pipes data so it's in order
@@ -56,16 +31,19 @@ common.io.sockets.on('connection', function(socket) {
         if (ts.granularities.hasOwnProperty(granularityLabel)) {
             var granularityDuration = ts.granularities[granularityLabel].duration;
             // console.log(granularityLabel,granularityDuration);
+
+            // send historical data
             async.parallel(shortendCommands.map(
                 function(cmd) {
-                    return tss.createHandler(cmd, 720, granularityLabel);
+                    return createHandler(cmd, 720, granularityLabel);
                 }), function(err, data) {
                         socket.emit('history', data);
                     });
+            // send new data every sec
             setInterval(function() {
                 async.parallel(shortendCommands.map(
                     function(cmd) {
-                        return tss.createHandler(cmd, 1, granularityLabel);
+                        return createHandler(cmd, 1, granularityLabel);
                     }), function(err, data) {
                             socket.emit('realtime', data);
                         });

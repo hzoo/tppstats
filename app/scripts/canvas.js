@@ -1,4 +1,4 @@
-/* global socket */
+/* global socket, swfobject, colorbrewer */
 
 //use instead of setInterval/setTimeout
 //http://creativejs.com/resources/requestanimationframe/
@@ -69,22 +69,22 @@ function pad(number, size) {
 var getDirMargin = Math.PI / 90;
 function getDir(angle, margin) {
     if (angle > -margin && angle < margin)
-        return "SOUTH";
+        return 'SOUTH';
     else if (angle > Math.PI / 2 - margin && angle < Math.PI / 2 + margin)
-        return "EAST";
+        return 'EAST';
     else if (angle > Math.PI - margin && angle < -Math.PI + margin)
-        return "NORTH";
+        return 'NORTH';
     else if (angle > -Math.PI / 2 - margin && angle < -Math.PI / 2 + margin)
-        return "WEST";
+        return 'WEST';
 
     if (angle > 0 && angle < Math.PI / 2)
-        return "SOUTH EAST";
+        return 'SOUTH EAST';
     else if (angle > Math.PI / 2 && angle < Math.PI)
-        return "NORTH EAST";
+        return 'NORTH EAST';
     else if (angle > -Math.PI / 2 && angle < 0)
-        return "SOUTH WEST";
+        return 'SOUTH WEST';
     else
-        return "NORTH WEST";
+        return 'NORTH WEST';
 }
 
 var showGraph = true;
@@ -111,7 +111,7 @@ function animate() {
     left = counts.l,
     right = counts.r,
     start = counts.s,
-    anarchy = counts.n,
+    // anarchy = counts.n,
     dpad = up + down + left + right;
 
     //settings
@@ -272,35 +272,35 @@ var twitchPlayer;
 var twitchNumViewers;
 window.onPlayerEvent = function(data) {
   data.forEach(function(event) {
-    if (event.event == "playerInit") {
+    if (event.event === 'playerInit') {
         twitchPlayer = document.getElementById('twitch_embed_player');
         twitchPlayer.playVideo();
     }
-    if (event.event == "viewerCount") {
+    if (event.event === 'viewerCount') {
         twitchNumViewers = event.data.viewers;
         console.log(twitchNumViewers);
     }
   });
-}
+};
 
 var streamAdded = false;
 function addStream() {
     streamAdded = true;
     swfobject.embedSWF(
-        "//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf",
-        "twitch_embed_player",
-        "720",
-        "480",
-        "11",
+        '//www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf',
+        'twitch_embed_player',
+        '720',
+        '480',
+        '11',
         null,
         {
-            "eventsCallback":"onPlayerEvent",
-            "embed":1,
-            "channel":"twitchplayspokemon",
-            "auto_play":"true"
+            'eventsCallback':'onPlayerEvent',
+            'embed':1,
+            'channel':'twitchplayspokemon',
+            'auto_play':'true'
         }, {
-            "allowScriptAccess":"always",
-            "allowFullScreen":"true"
+            'allowScriptAccess':'always',
+            'allowFullScreen':'true'
         }
     );
 }

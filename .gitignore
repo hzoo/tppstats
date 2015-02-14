@@ -1,5 +1,5 @@
-node_modules
-.tmp
 .sass-cache
+.tmp
 app/bower_components
+node_modules
 Gruntfile.js

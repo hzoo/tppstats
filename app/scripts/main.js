@@ -6,8 +6,8 @@ if (location.host.split(':')[0] === 'localhost') {
     var socket = io.connect(location.host);
 }
 
-var realTimeData = {'a':[],'b':[],'u':[],'l':[],'r':[],'d':[],'s':[],'e':[],'n':[],'m':[],'w':[]},
-commands = ['a','b','u','l','r','d','s','e','n','m','w'],
+var realTimeData = {'a':[],'b':[],'u':[],'l':[],'r':[],'d':[],'s':[],'e':[],'n':[],'m':[]},
+commands = ['a','b','u','l','r','d','s','e','n','m'],
 graphSize = 720,
 queueLength = graphSize,
 keymap = {
@@ -20,8 +20,7 @@ keymap = {
     'democracy':'m',
     'anarchy':'n',
     'start':'s',
-    'select':'e',
-    'wait':'w'
+    'select':'e'
 };
 
 
@@ -127,16 +126,14 @@ function startGraph() {
     right = command('right'),
     start = command('start'),
     dpad = up.add(down).add(left).add(right),
-    mag = up.subtract(down).add(right).subtract(left),
+    // mag = up.subtract(down).add(right).subtract(left),
     a = command('a'),
     b = command('b'),
     ab = a.add(b);
     // vertical = up.subtract(down),
     // horizontal = right.subtract(left);
-    // demo = command('democracy'),
-    // wait = command('wait'),
-
-    // var anar = command('anarchy');
+    // var demo = command('democracy'),
+    // anar = command('anarchy');
 
     d3.select('#demo1').call(function(div) {
         //axis

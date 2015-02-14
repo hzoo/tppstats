@@ -1,5 +1,4 @@
 {
-    "node": true,
     "browser": true,
     "esnext": true,
     "bitwise": true,
@@ -17,5 +16,13 @@
     "strict": false,
     "trailing": true,
     "smarttabs": true,
-    "jquery": true
+    "jquery": true,
+    "globals": {
+        "io": false,
+        "d3": false,
+        "cubism": false,
+        "colorbrewer": false,
+        "swfobject": false,
+        "console": false
+    }
 }

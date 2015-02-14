@@ -1,7 +1,11 @@
 if (process.env.REDISCLOUD_URL) {
     console.log('url: ' + process.env.REDISCLOUD_URL);
     var redisURL = require('url').parse(process.env.REDISCLOUD_URL);
-    var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+    var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {
+        // jshint ignore:start
+        no_ready_check: true
+        // jshint ignore:end
+    });
     redis.auth(redisURL.auth.split(':')[1]);
 }
 else if (process.env.REDISTOGO_URL) {
@@ -16,7 +20,9 @@ else if (process.env.REDISTOGO_URL) {
     //test server redis
     // var url = 'REDIS_URL_HERE';
     // var redisURL = require('url').parse(url);
-    // var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+    // var redis = require('redis').createClient(redisURL.port, redisURL.hostname, {
+        // no_ready_check: true
+    // });
     // redis.auth(redisURL.auth.split(':')[1]);
 }
 

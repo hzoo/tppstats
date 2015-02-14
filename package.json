@@ -2,6 +2,9 @@
   "name": "TPP_Stats",
   "description": "A TPP input visualizer",
   "version": "0.0.1",
+  "scripts": {
+    "lint": "jscs . --verbose && jshint ./app ./server --verbose --exclude-path .gitignore"
+  },
   "dependencies": {
     "express": "~3.4.8",
     "irc": "helderroem/node-irc#c4280fc66bc6d8114618af2c5a9b4067b846feb4",

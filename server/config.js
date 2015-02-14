@@ -1,39 +1,34 @@
 //list of commands to filter for
 var commands = [
-    'left', 'right', 'up', 'down', 'start', 'select', 'a', 'b', 'democracy', 'anarchy','wait'
+    'left', 'right', 'up', 'down',
+    'start', 'select',
+    'a', 'b',
+    'democracy', 'anarchy'
 ];
 
-var ircConfig = {
-    //IRC
-    //ex: irc.twitch.tv or 199.9.252.26
-    // server: '199.9.252.26',
+module.exports = {
+    // ip: irc.twitch.tv (used to be 199.9.252.26 for tpp)
     server: 'irc.twitch.tv',
-    //ex: your twitch username
+    // your twitch username (for both nick/userName)
     nick: 'twitchtypes',
-    //ex: your twitch username
     userName: 'twitchtypes',
-    //oauth token from www.twitchapps.com/tmi
+    // get your oauth token from www.twitchapps.com/tmi
     password: 'PASSWORD_HERE',
-    //ex: #twitchplayspokemon
+    // channel: #twitchplayspokemon
     channel: '#twitchplayspokemon',
-    //if you want to join more than one channel
+    // only if you want to join more than one channel
     channelList: ['#twitchplayspokemon'],
 
-    //other IRC
-    //default
+    // default is 6667
     port: 6667,
-    //needed for password
+    // don't need anymore?
     sasl: false,
-    //if you want to get all messages in real-time keep false
+    // if you want to get all messages in real-time use false
     floodProtection: false,
-    //only needed if true - in milliseconds
+    // only needed if floodProtection is true (in milliseconds)
     floodProtectionDelay: 100,
 
     //commands
-    //example of regex
-    //don't need to modify if you need anarchy mode
-    //matches for any of the words in 'commands'
-    regexCommands: new RegExp('^(' + commands.join('|') + ')\d?$', 'i')
+    //matches for any of the words in 'commands' including added digits
+    regexCommands: new RegExp('^(' + commands.join('|') + ')\\d?$', 'i')
 };
-
-module.exports = ircConfig;
