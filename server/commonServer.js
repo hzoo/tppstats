@@ -8,8 +8,6 @@ io = require('socket.io')
     .listen(server)
     .set('match origin protocol', true);
 
-require('./ircServer.js');
-
 //serve webapp
 app.use(express.compress());
 app.configure('development', function() {

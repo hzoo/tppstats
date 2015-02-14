@@ -2,6 +2,8 @@
 var async = require('async'),
     common = require('./commonServer');
 
+require('./ircServer');
+
 var ts = require('./redisServer.js').ts;
 var shortendCommands = ['a','b','u','l','r','d','s','e','n','m'];
 

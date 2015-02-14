@@ -3,6 +3,7 @@ config = require('./config.js'),
 ts = require('./redisServer.js').ts;
 
 var common = require('./commonServer');
+var io = common.io;
 
 var client = new irc.Client(config.server, config.nick, {
     channels: config.channelList,
@@ -52,18 +53,18 @@ client.addListener('message' + config.channel, function(from, message) {
         addToBuffers(from, command);
 
         //send to clients
-        common.io.sockets.emit('cmd', command);
+        io.sockets.emit('cmd', command);
     } else if (from === 'twitchplayspokemon') {
         if (streamerBuffer.length >= streamerBufferLength) {
             streamerBuffer.shift();
         }
         streamerBuffer.push(message);
-        common.io.sockets.emit('streamer', message);
+        io.sockets.emit('streamer', message);
     }
 });
 
 //when a connection starts, send buffer (last x commands)
-common.io.sockets.on('connection', function(socket) {
+io.sockets.on('connection', function(socket) {
     socket.emit('cb', commandsBuffer);
     socket.emit('sb', streamerBuffer);
 });
