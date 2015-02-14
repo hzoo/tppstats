@@ -121,15 +121,16 @@ function changeScale(sel) {
 }
 
 function startGraph() {
-    // var up = command('up'),
-    // down = command('down'),
-    // left = command('left'),
-    // right = command('right'),
-    // start = command('start'),
-    // dpad = up.add(down).add(left).add(right),
-    // a = command('a'),
-    // b = command('b'),
-    // ab = a.add(b);
+    var up = command('up'),
+    down = command('down'),
+    left = command('left'),
+    right = command('right'),
+    start = command('start'),
+    dpad = up.add(down).add(left).add(right),
+    mag = up.subtract(down).add(right).subtract(left),
+    a = command('a'),
+    b = command('b'),
+    ab = a.add(b);
     // vertical = up.subtract(down),
     // horizontal = right.subtract(left);
     // demo = command('democracy'),
@@ -141,23 +142,42 @@ function startGraph() {
         //axis
         div.append('div').attr('class', 'axis').call(context.axis().orient('top'));
 
-        //horizon chart
-        // div.selectAll('.horizon')
-        //         .data([anar])
-        //     .enter().append('div')
-        //         .attr('class', 'horizon')
-        //         .call(context.horizon()
-        //             .height(60)
-        //             // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
-        //             // .colors([0].concat(colorbrewer.Greys[3]))
-        //             .colors([0].concat(colorbrewer.Purples[3]))
-        //         );
+        // horizon chart
+        div.selectAll('.horizon')
+                .data([dpad.add(ab).add(start)])
+            .enter().append('div')
+                .attr('class', 'horizon')
+                .call(context.horizon()
+                    .height(30)
+                    // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
+                    // .colors([0].concat(colorbrewer.Greys[3]))
+                    .colors([0].concat(colorbrewer.Purples[3]))
+                    .title(function(d, i) {
+                        if (i === 0) { return 'all keys'; }
+                        else { return 'mag'; }
+                    })
+                );
 
         //line
         div.append('div')
              .attr('class', 'rule')
              .call(context.rule());
     });
+
+    // d3.select('#demo2').call(function(div) {
+    //     // horizon chart
+    //     div.selectAll('.horizon')
+    //             .data([mag])
+    //         .enter().append('div')
+    //             .attr('class', 'horizon')
+    //             .call(context.horizon()
+    //                 .height(30)
+    //                 // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
+    //                 // .colors([0].concat(colorbrewer.Greys[3]))
+    //                 .colors([0].concat(colorbrewer.PuOr[5]))
+    //                 .title('mag')
+    //             );
+    // });
 
     d3.select('#demo2').call(function(div) {
         //horizon chart

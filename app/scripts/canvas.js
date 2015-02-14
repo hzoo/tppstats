@@ -47,7 +47,7 @@ socket.on('cmd', function(command) {
 });
 
 socket.on('cb', function(cb) {
-    for (var i = 0; i < Math.min(cb.length,queueLength); i++) {
+    for (var i = 0; i < Math.min(cb.length, queueLength); i++) {
         addToCommands(cb[i]);
     }
 });
@@ -64,6 +64,27 @@ function pad(number, size) {
     number = number.toString();
     while (number.length < size) { number = ' ' + number; }
     return number;
+}
+
+var getDirMargin = Math.PI / 90;
+function getDir(angle, margin) {
+    if (angle > -margin && angle < margin)
+        return "SOUTH";
+    else if (angle > Math.PI / 2 - margin && angle < Math.PI / 2 + margin)
+        return "EAST";
+    else if (angle > Math.PI - margin && angle < -Math.PI + margin)
+        return "NORTH";
+    else if (angle > -Math.PI / 2 - margin && angle < -Math.PI / 2 + margin)
+        return "WEST";
+
+    if (angle > 0 && angle < Math.PI / 2)
+        return "SOUTH EAST";
+    else if (angle > Math.PI / 2 && angle < Math.PI)
+        return "NORTH EAST";
+    else if (angle > -Math.PI / 2 && angle < 0)
+        return "SOUTH WEST";
+    else
+        return "NORTH WEST";
 }
 
 var showGraph = true;
@@ -116,7 +137,7 @@ function animate() {
     ctx.moveTo(num1, num1 - up * multipler);
     ctx.lineTo(num1 + right * multipler, num1);
     ctx.lineTo(num1, num1 + down * multipler);
-    ctx.lineTo(num1 - left * multipler,num1);
+    ctx.lineTo(num1 - left * multipler, num1);
     ctx.lineTo(num1, num1 - up * multipler);
     ctx.stroke();
     ctx.fill();
@@ -129,58 +150,63 @@ function animate() {
     var rectX = 250.5;
     var rectY = 60.5;
     ctx.fillRect(rectX, rectY, a, 5);
-    ctx.fillRect(rectX, rectY + 15 * 1,b, 5);
-    ctx.fillRect(rectX, rectY + 15 * 2,start, 5);
-    ctx.fillRect(rectX, rectY + 15 * 3,anarchy, 5);
-    ctx.fillRect(rectX, rectY + 15 * 4,dpad, 5);
+    ctx.fillRect(rectX, rectY + 15 * 1, b, 5);
+    ctx.fillRect(rectX, rectY + 15 * 2, start, 5);
+    // ctx.fillRect(rectX, rectY + 15 * 3, anarchy, 5);
+    ctx.fillRect(rectX, rectY + 15 * 3, dpad, 5);
     ctx.font = '10px Arial';
-    ctx.fillText('A', rectX - 35,rectY + 5);
-    ctx.fillText('B', rectX - 35,rectY + 5 + 15 * 1);
+    ctx.fillText('A', rectX - 35, rectY + 5);
+    ctx.fillText('B', rectX - 35, rectY + 5 + 15 * 1);
     ctx.fillText('STAR', rectX - 35, rectY + 5 + 15 * 2);
-    ctx.fillText('ANAR', rectX - 35, rectY + 5 + 15 * 3);
-    ctx.fillText('DPAD', rectX - 35, rectY + 5 + 15 * 4);
+    // ctx.fillText('ANAR', rectX - 35, rectY + 5 + 15 * 3);
+    ctx.fillText('DPAD', rectX - 35, rectY + 5 + 15 * 3);
     //%s
-    ctx.fillText(pad(a, 2),rectX + 117,rectY + 5);
-    ctx.fillText(pad(b, 2),rectX + 117,rectY + 5 + 15 * 1);
-    ctx.fillText(pad(start, 2),rectX + 117,rectY + 5 + 15 * 2);
-    ctx.fillText(pad(anarchy, 2),rectX + 117,rectY + 5 + 15 * 3);
-    ctx.fillText(pad(dpad, 2),rectX + 117,rectY + 5 + 15 * 4);
+    ctx.fillText(pad(a, 2), rectX + 117, rectY + 5);
+    ctx.fillText(pad(b, 2), rectX + 117, rectY + 5 + 15 * 1);
+    ctx.fillText(pad(start, 2), rectX + 117, rectY + 5 + 15 * 2);
+    // ctx.fillText(pad(anarchy, 2), rectX + 117, rectY + 5 + 15 * 3);
+    ctx.fillText(pad(dpad, 2), rectX + 117, rectY + 5 + 15 * 3);
+
     //edge
     ctx.fill();
 
     //calculate magnitude/direction
-    var direction = Math.atan2((right - left) / 2,(down - up) / 2);
+    var direction = Math.atan2((right - left) / 2, (down - up) / 2);
 
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 1;
 
     ctx.beginPath();
-    ctx.fillStyle= '#b2b2b2';
-    ctx.fillText('AVG direction', 50.5, 140.5);
+    ctx.fillText('AVG DIR: ' + getDir(direction, getDirMargin), 56, 152);
     ctx.fill();
 
     ctx.beginPath();
     ctx.fillStyle= '#555';
     //' + queue.length + '
-    ctx.fillText('last 100 keys', rectX + 25,rectY - 15);
+    ctx.fillText('last 100 keys', rectX + 25, rectY - 15);
     ctx.fill();
 
     // mag = sqrt(a^2+b^2), a = right-left, b = up - down
     var mag = Math.sqrt((right - left) * (right - left) + (up - down) * (up - down));
-    if (mag < 4) { mag = 4; }
+    // if (mag < 4) { mag = 4; }
+
+    ctx.beginPath();
+    ctx.fillText('MAG: ' + Math.floor(mag), 74, 168);
+    ctx.fill();
 
     //arrow line/mag
     var originX = 100.5;
     var originY = 100.5;
-    ctx.strokeStyle = '#E82C0C';
+    //longer line
+    ctx.strokeStyle = '#e0e0e0';
     ctx.moveTo(originX, originY);
-    ctx.lineTo(originX + Math.sin(direction) * mag,originY + Math.cos(direction) * mag);
+    ctx.lineTo(originX + Math.sin(direction) * 100, originY + Math.cos(direction) * 100);
     ctx.stroke();
     ctx.beginPath();
-    //longer line
-    ctx.strokeStyle = '#bdbdbd';
+    // shorter line
+    ctx.strokeStyle = '#E82C0C';
     ctx.moveTo(originX, originY);
-    ctx.lineTo(originX + Math.sin(direction) * 100,originY + Math.cos(direction) * 100);
+    ctx.lineTo(originX + Math.sin(direction) * mag, originY + Math.cos(direction) * mag);
     ctx.stroke();
     ctx.beginPath();
 
@@ -192,12 +218,12 @@ function animate() {
     arrowHeadSize = 27;
     ctx.strokeStyle = '#000';
     ctx.lineTo(
-        originX + Math.sin(direction - arrowAngleOffset) * (Math.max(mag - arrowSizeDiff,arrowHeadSize)),
-        originY + Math.cos(direction - arrowAngleOffset) * (Math.max(mag - arrowSizeDiff,arrowHeadSize))
+        originX + Math.sin(direction - arrowAngleOffset) * (Math.max(mag - arrowSizeDiff, arrowHeadSize)),
+        originY + Math.cos(direction - arrowAngleOffset) * (Math.max(mag - arrowSizeDiff, arrowHeadSize))
     );
     ctx.lineTo(
-        originX + Math.sin(direction + arrowAngleOffset) * (Math.max(mag - arrowSizeDiff,arrowHeadSize)),
-        originY + Math.cos(direction + arrowAngleOffset) * (Math.max(mag - arrowSizeDiff,arrowHeadSize))
+        originX + Math.sin(direction + arrowAngleOffset) * (Math.max(mag - arrowSizeDiff, arrowHeadSize)),
+        originY + Math.cos(direction + arrowAngleOffset) * (Math.max(mag - arrowSizeDiff, arrowHeadSize))
     );
     ctx.lineTo(
         originX + Math.sin(direction) * Math.max(mag, arrowHeadSize + arrowSizeDiff),
@@ -205,6 +231,20 @@ function animate() {
     );
     ctx.fill();
     ctx.stroke();
+
+    //walking? in battle?
+    // ctx.beginPath();
+    // ctx.fillStyle= '#555';
+    // var text = '';
+    // if (dpad > 70) {
+    //     text = 'WALKING?';
+    // } else if (mag < 15) {
+    //     text = 'BATTLING';
+    // } else {
+    //     text = '?';
+    // }
+    // ctx.fillText(text, rectX + 25, rectY + 85);
+    // ctx.fill();
 
     //commands/sec
     // ctx.fillStyle='#000';
@@ -258,7 +298,7 @@ function addStream() {
             "embed":1,
             "channel":"twitchplayspokemon",
             "auto_play":"true"
-        },{
+        }, {
             "allowScriptAccess":"always",
             "allowFullScreen":"true"
         }
