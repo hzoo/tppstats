@@ -16,11 +16,12 @@ To run:
     "TWITCH_USERNAME": "TWITCH_NAME_HERE"
 }
 ```
-- run `node ./server/server.js`
+- run `npm start`
 - go to `localhost:8080` (default ip)
 
 Building/Contributing
 - `npm install` and `bower install` when needed
+- run `npm run lint` to check jshint/jscs
 - run `grunt build` (at the moment the `dist/` folder is commited)
 
 TODO
