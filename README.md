@@ -1,7 +1,7 @@
 TPP Stats
 --------------
 
-![](https://i.imgur.com/get3M0p.png)
+![](https://i.imgur.com/8AiwsdT.png)
 
 To run:
 - `npm install`
