@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "lint": "jscs . --verbose && jshint ./app ./server --verbose --exclude-path .gitignore",
-    "build": "grunt build"
+    "build": "grunt build",
+    "start": "node ./server/server"
   },
   "dependencies": {
     "async": "^0.9.0",
@@ -44,6 +45,7 @@
     "grunt-concurrent": "~0.1.0"
   },
   "engines": {
-    "node": "~0.12.0"
+    "node": "~0.12.0",
+    "npm": "~2.5.0"
   }
 }

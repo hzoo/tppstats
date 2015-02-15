@@ -52,14 +52,6 @@ socket.on('cb', function(cb) {
     }
 });
 
-// var commandsPerSecond = 0;
-//check commands/second
-// setInterval(function() {
-//     commandsPerSecond = perSecondQueue.length;
-//     perSecondQueue = [];
-//     perSecondCounts = resetCounts();
-// }, 1000);
-
 function pad(number, size) {
     number = number.toString();
     while (number.length < size) { number = ' ' + number; }
@@ -246,11 +238,6 @@ function animate() {
     // ctx.fillText(text, rectX + 25, rectY + 85);
     // ctx.fill();
 
-    //commands/sec
-    // ctx.fillStyle='#000';
-    // ctx.font = '10px Arial';
-    // ctx.fillText(commandsPerSecond+' keys/s',290,175);
-
     if (showGraph === true) {
         window.requestAnimationFrame(animate);
     }
@@ -325,7 +312,5 @@ document.getElementById('toggleStream').onclick = function() {
         }
     }
 };
-
-
 
 animate();

@@ -1,4 +1,5 @@
 /* exported changeScale */
+/* global io, d3, colorbrewer, cubism */
 
 if (location.host.split(':')[0] === 'localhost') {
     var socket = io.connect('http://localhost:8080');
@@ -52,7 +53,7 @@ function getParameterByName(name) {
 }
 
 // 1e4 or 10 seconds, 6e4 or 1 minute, 3e5 or 5 minutes, 36e5 or 1 hour
-var commandList = ['up', 'down', 'left', 'right','a', 'b','start'],//, 'select','start'],
+var commandList = ['up', 'down', 'left', 'right', 'a', 'b', 'start'],//, 'select','start'],
 step = Number(getParameterByName('step')) || 1e4,
 context = cubism.context()
     .serverDelay(100)
@@ -109,7 +110,7 @@ for (var j = 0; j < sel.options.length; j++) {
 }
 
 context.on('focus', function(i) {
-    d3.selectAll('.value').style('right',                  // Make the rule coincide
+    d3.selectAll('.value').style('right', // Make the rule coincide
         i === null ? null : context.size() - i + 'px'); // with the mouse
 });
 
