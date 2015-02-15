@@ -27,4 +27,5 @@ TODO
 - refactor everything
 - update grunt/use something else
 - update socket.io, other packages
+- babel (6to5), iojs, use generators
 - remove `dist/` and be able to deploy
