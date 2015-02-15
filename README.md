@@ -6,9 +6,10 @@ TPP Stats
 To run:
 - `npm install`
 - `bower install`
-- Create a config.js file (to store your twitch name and oauth token)
+- Create a `config.json` file (to store your twitch name and oauth token)
     + go to http://www.twitchapps.com/tmi to get your token
 ```js
+// config.json
 {
     // you can also set the environment variables in node (for heroku)
     "TWITCH_OAUTH": "OAUTH_HERE"
