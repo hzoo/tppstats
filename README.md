@@ -1,6 +1,8 @@
 TPP Stats
 --------------
 
+![](https://i.imgur.com/get3M0p.png)
+
 To run:
 - `npm install`
 - `bower install`
