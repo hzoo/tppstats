@@ -18,3 +18,13 @@ To run:
 ```
 - run `node ./server/server.js`
 - go to `localhost:8080` (default ip)
+
+Building/Contributing
+- `npm install` and `bower install` when needed
+- run `grunt build` (at the moment the `dist/` folder is commited)
+
+TODO
+- refactor everything
+- update grunt/use something else
+- update socket.io, other packages
+- remove `dist/` and be able to deploy
