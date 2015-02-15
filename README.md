@@ -4,14 +4,14 @@ TPP Stats
 To run:
 - `npm install`
 - `bower install`
-- modify config file for username/password
+- Create a config.js file (to store your twitch name and oauth token)
+    + go to http://www.twitchapps.com/tmi to get your token
 ```json
-    //your twitch username
-    nick: 'TWITCH_NAME_HERE',
-    userName: 'TWITCH_NAME_HERE',
-    // use www.twitchapps.com/tmi to get your token
-    // http://help.twitch.tv/customer/portal/articles/1302780-twitch-irc
-    password: 'OAUTH_TOKEN_HERE',
+{
+    // you can also set the environment variables in node (for heroku)
+    "TWITCH_OAUTH": "OAUTH_HERE"
+    "TWITCH_USERNAME": "TWITCH_NAME_HERE"
+}
 ```
 - run `node ./server/server.js`
-- go to `localhost:8080` (default)
+- go to `localhost:8080` (default ip)
