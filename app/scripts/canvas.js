@@ -15,7 +15,6 @@ function resetCounts() {
     return {'a':0,'b':0,'u':0,'l':0,'r':0,'d':0,'s':0,'e':0,'n':0,'m':0};
 }
 var counts = resetCounts();
-// var perSecondCounts = resetCounts();
 
 //get canvas
 var canvas = document.querySelector('canvas');
@@ -24,12 +23,10 @@ var ctx = canvas.getContext('2d');
 //queue to keep count of the last queueLength commands
 var queue = [],
 queueLength = 100;
-// var perSecondQueue = [];
 
 function addToCommands(command) {
     //add to array
     counts[command]++;
-    // perSecondCounts[command]++;
     queue.push(command);
     if (queue.length >= queueLength) {
         counts[queue.shift()]--;
@@ -38,7 +35,6 @@ function addToCommands(command) {
 
 function processLastData(command) {
     addToCommands(command);
-    // perSecondQueue.push(command);
 }
 
 //when data is sent

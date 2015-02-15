@@ -70,13 +70,7 @@ function command(name) {
         if (firstTime) {
             var data = realTimeData[keymap[name]];
             firstTime = false;
-            // start = +start;
-            // stop = +stop;
-            // if (isNaN(last)) { last = start; }
-            // while (last < stop) {
-            //     last += step;
-            //     values.push(1);
-            // }
+
             values = makeWithConcat(graphSize - data.length);
             values = values.concat(data);
             callback(null, values = values.slice((start - stop) / step));
@@ -147,35 +141,14 @@ function startGraph() {
                 .attr('class', 'horizon')
                 .call(context.horizon()
                     .height(30)
-                    // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
-                    // .colors([0].concat(colorbrewer.Greys[3]))
                     .colors([0].concat(colorbrewer.Purples[3]))
-                    .title(function(d, i) {
-                        if (i === 0) { return 'all keys'; }
-                        else { return 'mag'; }
-                    })
-                );
+                    .title('all keys'));
 
         //line
         div.append('div')
              .attr('class', 'rule')
              .call(context.rule());
     });
-
-    // d3.select('#demo2').call(function(div) {
-    //     // horizon chart
-    //     div.selectAll('.horizon')
-    //             .data([mag])
-    //         .enter().append('div')
-    //             .attr('class', 'horizon')
-    //             .call(context.horizon()
-    //                 .height(30)
-    //                 // .extent([-15,15].map(function(d) {return d*step/1000/4;}))
-    //                 // .colors([0].concat(colorbrewer.Greys[3]))
-    //                 .colors([0].concat(colorbrewer.PuOr[5]))
-    //                 .title('mag')
-    //             );
-    // });
 
     d3.select('#demo2').call(function(div) {
         //horizon chart
@@ -185,21 +158,9 @@ function startGraph() {
                 .attr('class', 'horizon')
                 .call(context.horizon()
                     .height(60)
-                    // .extent([0,60].map(function(d) {return d*step/1000/8;}))
-                    // .extent([0,120])
                     .colors(function() {
-                    // .colors(function(d,i) {
-                        // if (i === 0) { return [0].concat(colorbrewer.BuGn[3]);
-                        // } else if (i === 1) { return [0].concat(colorbrewer.Greens[3]);
-                        // } else if (i === 2) { return [0].concat(colorbrewer.Blues[3]);
-                        // } else if (i === 3) { return [0].concat(colorbrewer.PuRd[3]);
-                        // } else if (i === 4) { return [0].concat(colorbrewer.RdPu[3]);
-                        // } else if (i === 5) { return [0].concat(colorbrewer.Oranges[3]);
-                        // } else if (i === 6) { return [0].concat(colorbrewer.YlOrBr[3]);
-                        // }
                         return [0].concat(colorbrewer.Purples[3]);
-                    })
-                );
+                    }));
     });
 
 }
