@@ -1,6 +1,5 @@
-var async = require('async'),
-    io = require('./commonServer');
-
+var async = require('async');
+var io = require('./commonServer');
 require('./ircServer');
 
 var ts = require('./redisServer.js').ts;

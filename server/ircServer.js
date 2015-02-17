@@ -1,7 +1,6 @@
-var irc = require('irc'),
-config = require('./config.js'),
-ts = require('./redisServer.js').ts;
-
+var irc = require('irc');
+var config = require('./config.js');
+var ts = require('./redisServer.js').ts;
 var io = require('./commonServer');
 
 var client = new irc.Client(config.server, config.userName, {
@@ -45,7 +44,7 @@ client.addListener('message' + config.channelList[0], function(from, message) {
         trimMessage = trimMessage.substring(6);
     }
     if (trimMessage.match(config.regexCommands)) {
-        // console.log(trimMessage);
+        console.log(trimMessage);
         //shorten data to send
         var command = shorten(message);
         //add to buffers
