@@ -5,10 +5,11 @@
   "scripts": {
     "lint": "jscs . --verbose && jshint ./app ./server --verbose --exclude-path .gitignore",
     "build": "grunt build",
-    "start": "node ./server/server"
+    "start": "babel-node ./server/server"
   },
   "dependencies": {
     "async": "^0.9.0",
+    "babel": "^4.0.1",
     "express": "~3.4.8",
     "irc": "helderroem/node-irc#c4280fc66bc6d8114618af2c5a9b4067b846feb4",
     "nconf": "^0.7.1",
@@ -18,7 +19,7 @@
     "socket.io": "~0.9.16"
   },
   "author": "Henry Zhu",
-  "main": "server.js",
+  "main": "./server/server.js",
   "devDependencies": {
     "matchdep": "~0.3.0",
     "connect-livereload": "~0.2.0",
@@ -45,6 +46,7 @@
     "grunt-concurrent": "~0.1.0"
   },
   "engines": {
+    "iojs": "~1.2.0",
     "node": "~0.12.0",
     "npm": "~2.5.0"
   }
