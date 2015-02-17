@@ -5,7 +5,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 var port = Number(process.env.PORT || 8080);
-var env = process.env.NPM_CONFIG_PRODUCTION || 'development';
+var env = process.env.NODE_ENV || 'development';
 var serveDir = {
     development: 'app',
     production: 'dist'
