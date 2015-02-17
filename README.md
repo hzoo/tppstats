@@ -28,11 +28,4 @@ Building/Contributing
 - run `npm run lint` to check jshint/jscs
 - run `grunt build` (at the moment the `dist/` folder is commited)
 
-TODO
-- refactor everything
-- update grunt/use something else
-- update socket.io, other packages
-- babel: use generators
-- remove `dist/` and be able to deploy
-
 [Dependency Status]: https://img.shields.io/david/hzoo/tppstats.svg?style=flat-square
