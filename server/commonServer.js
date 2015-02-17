@@ -12,7 +12,7 @@ var serveDir = {
 };
 
 server.listen(port);
-app.use(serveStatic(__dirname + '/../' + serveDir[env]));
+app.use(serveStatic(path.normalize(__dirname + '/../' + serveDir[env])));
 
 console.log(`http server on port ${port} in ${env} mode`);
 
