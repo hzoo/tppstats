@@ -7,6 +7,10 @@
     "build": "grunt build",
     "start": "babel-node ./server/server"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hzoo/tppstats.git"
+  },
   "dependencies": {
     "async": "^0.9.0",
     "babel": "^4.0.1",
@@ -18,7 +22,11 @@
     "redis-timeseries": "^0.4.0",
     "socket.io": "~0.9.16"
   },
-  "author": "Henry Zhu",
+  "author": {
+    "name": "Henry Zhu",
+    "url": "http://henryzoo.com"
+  },
+  "license": "MIT",
   "main": "./server/server.js",
   "devDependencies": {
     "matchdep": "~0.3.0",
@@ -49,5 +57,9 @@
     "iojs": "~1.2.0",
     "node": "~0.12.0",
     "npm": "~2.5.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/hzoo/tppstats/issues"
+  },
+  "homepage": "https://github.com/hzoo/tppstats"
 }
