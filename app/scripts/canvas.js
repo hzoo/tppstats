@@ -259,10 +259,6 @@ window.onPlayerEvent = function(data) {
         twitchPlayer = document.getElementById('twitch_embed_player');
         twitchPlayer.playVideo();
     }
-    if (event.event === 'viewerCount') {
-        twitchNumViewers = event.data.viewers;
-        console.log(twitchNumViewers);
-    }
   });
 };
 

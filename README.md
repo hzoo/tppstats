@@ -1,6 +1,8 @@
 TPP Stats
 --------------
 
+[![Dependency Status]](https://david-dm.org/hzoo/tppstats)
+
 ![](https://i.imgur.com/8AiwsdT.png)
 
 To run:
@@ -30,5 +32,7 @@ TODO
 - refactor everything
 - update grunt/use something else
 - update socket.io, other packages
-- babel (6to5), iojs, use generators
+- babel: use generators
 - remove `dist/` and be able to deploy
+
+[Dependency Status]: https://img.shields.io/david/hzoo/tppstats.svg?style=flat-square

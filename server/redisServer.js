@@ -33,7 +33,9 @@ ts.granularities = {
     // '1day'     : { ttl: ts.weeks(52) , duration: ts.days(1) }
 };
 
-redis.on('error', function(err) { console.log('Error redis: ', err); });
+redis.on('error', function(err) {
+    console.log('Error redis: ', err);
+});
 
 module.exports = {
     ts: ts,

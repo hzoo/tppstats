@@ -1,6 +1,5 @@
-//create web server, socket.io
 var async = require('async'),
-    common = require('./commonServer');
+    io = require('./commonServer');
 
 require('./ircServer');
 
@@ -25,7 +24,7 @@ function createHandler(command, count, granularityLabel) {
 
 //send history on connection (in parallel)
 //redis pipes data so it's in order
-common.io.sockets.on('connection', function(socket) {
+io.on('connection', function(socket) {
     // console.log('client connected', socket.id);
 
     socket.on('graphInfo', function(data) {

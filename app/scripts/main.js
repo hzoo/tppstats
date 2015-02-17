@@ -1,11 +1,7 @@
 /* exported changeScale */
 /* global io, d3, colorbrewer, cubism */
 
-if (location.host.split(':')[0] === 'localhost') {
-    var socket = io.connect('http://localhost:8080');
-} else {
-    var socket = io.connect(location.host);
-}
+var socket = io();
 
 var realTimeData = {'a':[],'b':[],'u':[],'l':[],'r':[],'d':[],'s':[],'e':[],'n':[],'m':[]},
 commands = ['a','b','u','l','r','d','s','e','n','m'],

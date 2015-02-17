@@ -2,18 +2,17 @@ var irc = require('irc'),
 config = require('./config.js'),
 ts = require('./redisServer.js').ts;
 
-var common = require('./commonServer');
-var io = common.io;
+var io = require('./commonServer');
 
-var client = new irc.Client(config.server, config.nick, {
+var client = new irc.Client(config.server, config.userName, {
     channels: config.channelList,
-    port: config.port,
-    sasl: config.sasl,
-    nick: config.nick,
-    userName: config.nick,
+    port: config.port || 6667,
+    sasl: false,
+    nick: config.userName,
+    userName: config.userName,
     password: config.password,
     floodProtection: config.floodProtection,
-    floodProtectionDelay: config.floodProtectionDelay,
+    floodProtectionDelay: config.floodProtectionDelay || 100,
     autoConnect: false,
     autoRejoin: true
 }),
@@ -40,31 +39,32 @@ function shorten(message) {
     return command;
 }
 
-client.addListener('message' + config.channel, function(from, message) {
+client.addListener('message' + config.channelList[0], function(from, message) {
     var trimMessage = message.trim();
     if (trimMessage.substring(0, 6) === '!move ' && trimMessage.substring(6).match(config.regexCommands)) {
         trimMessage = trimMessage.substring(6);
     }
     if (trimMessage.match(config.regexCommands)) {
-        console.log(trimMessage);
+        // console.log(trimMessage);
         //shorten data to send
         var command = shorten(message);
         //add to buffers
         addToBuffers(from, command);
 
         //send to clients
-        io.sockets.emit('cmd', command);
+        io.emit('cmd', command);
     } else if (from === 'twitchplayspokemon') {
         if (streamerBuffer.length >= streamerBufferLength) {
             streamerBuffer.shift();
         }
         streamerBuffer.push(message);
-        io.sockets.emit('streamer', message);
+        io.emit('streamer', message);
     }
 });
 
 //when a connection starts, send buffer (last x commands)
-io.sockets.on('connection', function(socket) {
+io.on('connection', function(socket) {
+    console.log('connected!');
     socket.emit('cb', commandsBuffer);
     socket.emit('sb', streamerBuffer);
 });
@@ -74,4 +74,4 @@ client.addListener('error', function(message) {
 });
 
 client.connect();
-console.log('irc client on ' + config.channel);
+console.log('irc client on ' + config.channelList[0]);
