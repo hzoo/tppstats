@@ -4,6 +4,8 @@ TPP Stats
 ![](https://i.imgur.com/8AiwsdT.png)
 
 To run:
+- Start a local copy of [redis](http://redis.io/download#installation)
+    - `./src/redis-server`
 - `npm install`
 - `bower install`
 - Create a `config.json` file (to store your twitch name and oauth token)
